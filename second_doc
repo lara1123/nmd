@@ -1,0 +1,582 @@
+DECLARE @MD_Document_ID INT, @MD_DocumentControl_ID INT 
+DECLARE @RtftPartID INT 
+DECLARE @RtftPartHistoryID INT 
+DECLARE @ScoreID INT 
+DECLARE @ScoreQuestionID INT 
+DECLARE @QuestionID INT 
+DECLARE @TargetQuestionID INT 
+DECLARE @ScoreQuestionConstraintID INT 
+DECLARE @DijagnozaPodTipID INT 
+DECLARE @ParentGroupID INT 
+DECLARE @xaml nvarchar(MAX) 
+DECLARE @rtf varchar(MAX) 
+DECLARE @code varchar(15) 
+DECLARE @SourceID int 
+ DECLARE @FormXaml NVARCHAR(MAX) 
+DECLARE @DiagnosisSubtype_old VARCHAR(MAX) 
+DECLARE @DiagnosisSubtype_new VARCHAR(MAX) 
+DECLARE @FormXamlPom NVARCHAR(MAX) 
+DECLARE @DijagnozaIme VARCHAR(100) 
+DECLARE @DijagnozaPodTip VARCHAR(100) 
+DECLARE @PosStartDiag INT 
+DECLARE @PosEndDiag INT 
+SET @xaml ='<MDTabControl CanAddNewTab="False" Name="TabControl" Tag="rootTabControl" ItemsSource="{x:Null}" xmlns="clr-namespace:IN2.BIS.MedicinskaDokumentacija.Controls;assembly=IN2.BIS.MedicinskaDokumentacija" xmlns:inbiswic="clr-namespace:IN2.BIS.Wpf.Infrastructure.Controls;assembly=IN2.BIS.Wpf.Infrastructure" xmlns:av="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:inbismdc="clr-namespace:IN2.BIS.MedicinskaDokumentacija.Converters;assembly=IN2.BIS.MedicinskaDokumentacija" xmlns:inbismdvc="clr-namespace:IN2.BIS.MedicinskaDokumentacija.ValidationClasses;assembly=IN2.BIS.MedicinskaDokumentacija" xmlns:inbismdcgc="clr-namespace:IN2.BIS.MedicinskaDokumentacija.Controls.GlobalControls;assembly=IN2.BIS.MedicinskaDokumentacija" xmlns:inbismdm="clr-namespace:IN2.BIS.MedicinskaDokumentacija.Model;assembly=IN2.BIS.MedicinskaDokumentacija" xmlns:inbisdwc="clr-namespace:IN2.BIS.Dijagnoza.WpfClient;assembly=IN2.BIS.Dijagnoza.WpfClient" xmlns:assembly="http://metro.mahapps.com/winfx/xaml/controls" xmlns:inbismdcfc="clr-namespace:IN2.BIS.MedicinskaDokumentacija.Controls.FormulaControls;assembly=IN2.BIS.MedicinskaDokumentacija">
+  <MDTabItem CloseButtonEnabled="False" IsSelected="True" Header="Header" AllowDrop="True" Visibility="Collapsed">
+    <MDAdornerDecorator>
+      <MDGridControl ShowGridLines="True" Background="#FFFFFFFF" MaxWidth="1365.8">
+        <MDGridControl.ColumnDefinitions>
+          <av:ColumnDefinition Width="Auto" Name="ActionColumn" />
+          <av:ColumnDefinition Width="*" />
+          <av:ColumnDefinition Width="Auto" />
+          <av:ColumnDefinition Width="Auto" />
+          <av:ColumnDefinition Width="Auto" />
+          <av:ColumnDefinition Width="Auto" />
+          <av:ColumnDefinition Width="Auto" />
+        </MDGridControl.ColumnDefinitions>
+        <MDGridControl.RowDefinitions>
+          <av:RowDefinition Height="Auto" />
+          <av:RowDefinition Height="Auto" />
+          <av:RowDefinition Height="Auto" />
+          <av:RowDefinition Height="Auto" />
+          <av:RowDefinition Height="Auto" />
+          <av:RowDefinition Height="Auto" />
+          <av:RowDefinition Height="Auto" />
+          <av:RowDefinition Height="Auto" />
+          <av:RowDefinition Height="Auto" />
+          <av:RowDefinition Height="Auto" />
+          <av:RowDefinition Height="Auto" />
+          <av:RowDefinition Height="Auto" />
+          <av:RowDefinition Height="Auto" />
+          <av:RowDefinition Height="Auto" />
+          <av:RowDefinition Height="Auto" />
+          <av:RowDefinition Height="Auto" />
+        </MDGridControl.RowDefinitions>
+        <MDTextBlock Text="Povijest bolesti dnevne bolnice" FontWeight="Bold" FontSize="14" Foreground="#FF000000" Name="mdLbl0" Tag="{x:Null}" Margin="4,4,4,4" HorizontalAlignment="Center" VerticalAlignment="Center" ContextMenu="{x:Null}" IsEnabled="True" av:Grid.Column="1" av:Grid.Row="0" av:Grid.ColumnSpan="5" av:Grid.RowSpan="1" />
+        <MDDropElement AllowDrop="True" av:Grid.Column="5" av:Grid.Row="13" />
+        <MDDropElement AllowDrop="True" av:Grid.Column="2" av:Grid.Row="14" />
+        <MDDropElement AllowDrop="True" av:Grid.Column="3" av:Grid.Row="14" />
+        <MDDropElement AllowDrop="True" av:Grid.Column="4" av:Grid.Row="14" />
+        <MDDropElement AllowDrop="True" av:Grid.Column="5" av:Grid.Row="14" />
+        <MDDatePicker IsEmpty="True" Required="True" DefaultValue="True" FormulaExpressionEvaluateOneTime="False" LabelForPrint="{x:Null}" LabelControlName="{x:Null}" ErrorLoadingNode="False" FirstDayOfWeek="Monday" IsDropDownOpen="False" TabIndex="8" Name="mdDate0" Tag="{x:Null}" Width="110" VerticalAlignment="Center" IsEnabled="True" av:Grid.Column="2" av:Grid.Row="13" av:Grid.ColumnSpan="3" av:Grid.RowSpan="1">
+          <MDDatePicker.SelectedDate>
+            <av:Binding ValidatesOnDataErrors="True" NotifyOnValidationError="True" Path="Model.mdDate0.Value" UpdateSourceTrigger="PropertyChanged">
+              <av:Binding.Converter>
+                <inbismdc:DatePickerConverter />
+              </av:Binding.Converter>
+              <av:Binding.ValidationRules>
+                <inbismdvc:RequiredDatePickerValidate ValidationStep="RawProposedValue" ValidatesOnTargetUpdated="True" />
+              </av:Binding.ValidationRules>
+            </av:Binding>
+          </MDDatePicker.SelectedDate>
+        </MDDatePicker>
+        <MDTextBlock Text="Datum:" Name="mdLbl7" Tag="{x:Null}" VerticalAlignment="Center" IsEnabled="True" av:Grid.Column="1" av:Grid.Row="13" av:Grid.ColumnSpan="1" av:Grid.RowSpan="1" />
+        <MDTextBlock Text="Nalaz" FontWeight="Bold" Name="mdLbl8" Tag="{x:Null}" VerticalAlignment="Center" IsEnabled="True" av:Grid.Column="1" av:Grid.Row="1" av:Grid.ColumnSpan="1" av:Grid.RowSpan="1" />
+        <MDTextBlock Text="Liječnik:" FontWeight="Bold" Name="mdLbl9" Tag="{x:Null}" VerticalAlignment="Center" IsEnabled="True" av:Grid.Column="1" av:Grid.Row="12" av:Grid.ColumnSpan="1" av:Grid.RowSpan="1" />
+        <inbismdcgc:MDLookupDoctor Prefix="{x:Null}" Sufix="{x:Null}" Ime="{x:Null}" Prezime="{x:Null}" Specijalnost="{x:Null}" Subspecijalnost="{x:Null}" DjelatnikPravoGrupa="False" SignLogged="True" DoctorPermissionCode="6" Priority="1" IsEmpty="True" LabelBefore="Liječnik:" BindedValue="{av:Binding NotifyOnValidationError=True, Path=Model.mdLookup1.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" BindedValueDescription="{av:Binding ValidatesOnDataErrors=True, Path=Model.mdLookup1.ValueDescription, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" LabelBeforeWidth="60" LabelForPrint="{x:Null}" LabelControlName="{x:Null}" LabelShowInNewRow="False" DefaultValue="{x:Null}" FormulaExpressionEvaluateOneTime="False" SelectedItem="{x:Null}" ValueText="" DisplayText="" TextBoxWidth="55" Title="Potpis na ambulantnim nalazima" SelectedValueID="" TabIndex="7" Name="mdLookup1" Tag="6" Width="200" MinWidth="55" IsEnabled="True" av:Canvas.Left="Auto" av:Canvas.Top="Auto" av:Grid.Column="2" av:Grid.Row="12" av:Grid.ColumnSpan="3" av:Grid.RowSpan="1">
+          <inbismdcgc:MDLookupDoctor.Required>
+            <av:MultiBinding Mode="TwoWay" UpdateSourceTrigger="Default" NotifyOnSourceUpdated="True">
+              <av:MultiBinding.Converter>
+                <inbismdc:MDFormulaExpressionConverter />
+              </av:MultiBinding.Converter>
+              <av:MultiBinding.ConverterParameter>
+                <inbismdm:ExpressionData Expression="@mdDijagnoze0.Count &gt; 0" StringFormat="{x:Null}" InverseResult="False" VariableTypes="Collection;" VariableNames="@mdDijagnoze0;" />
+              </av:MultiBinding.ConverterParameter>
+              <av:Binding NotifyOnSourceUpdated="True" ValidatesOnDataErrors="True" NotifyOnValidationError="True" Path="DijagnozaCollectionForBinding" UpdateSourceTrigger="PropertyChanged" ElementName="mdDijagnoze0" />
+            </av:MultiBinding>
+          </inbismdcgc:MDLookupDoctor.Required>
+        </inbismdcgc:MDLookupDoctor>
+        <MDDropElement AllowDrop="True" av:Grid.Column="5" av:Grid.Row="12" />
+        <MDDijagnoze LabelControlName="mdLbl16" LabelForPrint="Naslov" LabelShowInNewRow="True" PotpisnikControlName="mdLookup1" DocumentControlID="17031" DiagnosisSubtype="{x:Null}" CanAddMoreDiagnosis="True" OtherDiagnosis="True" MkbDiagnosis="False" OnkoDiagnosis="False" DjelatnikId="{av:Binding Path=Model.mdLookup1.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" CanBeFocused="False" TabIndex="4" Name="mdDijagnoze0" Tag="{x:Null}" Width="400" MinWidth="50" HorizontalAlignment="Left" ContextMenu="{x:Null}" IsEnabled="True" av:Canvas.Left="Auto" av:Canvas.Top="Auto" av:Grid.Column="1" av:Grid.Row="4" av:Grid.ColumnSpan="5" av:Grid.RowSpan="1" />
+        <MDDropElement AllowDrop="True" av:Grid.Column="3" av:Grid.Row="5" />
+        <MDDropElement AllowDrop="True" av:Grid.Column="4" av:Grid.Row="5" />
+        <MDDropElement AllowDrop="True" av:Grid.Column="5" av:Grid.Row="5" />
+        <MDTextBlock Text="Ostale dijagnoze" FontWeight="Bold" Name="mdLbl10" Tag="{x:Null}" VerticalAlignment="Center" ContextMenu="{x:Null}" IsEnabled="True" av:Grid.Column="1" av:Grid.Row="5" av:Grid.ColumnSpan="2" av:Grid.RowSpan="1" />
+        <MDTextBox IsEmpty="True" DefaultValue="{x:Null}" FormulaExpressionEvaluateOneTime="False" LabelForPrint="Ostale dijagnoze" LabelControlName="mdLbl10" LabelShowInNewRow="True" LabelBold="True" DataBold="False" ErrorLoadingNode="False" TextBoxWidth="500" TextWrapping="Wrap" Text="{av:Binding ValidatesOnDataErrors=True, NotifyOnValidationError=True, Path=Model.mdTextBox0.Value, UpdateSourceTrigger=PropertyChanged}" AcceptsReturn="True" VerticalScrollBarVisibility="Auto" Name="mdTextBox0" Tag="{x:Null}" Width="500" Height="50" HorizontalAlignment="Stretch" IsEnabled="True" av:Canvas.Left="Auto" av:Canvas.Top="Auto" av:Grid.Column="1" av:Grid.Row="6" av:Grid.ColumnSpan="5" av:Grid.RowSpan="1" av:SpellCheck.IsEnabled="True" assembly:TextBoxHelper.HasText="False" />
+        <MDTextBox IsEmpty="True" DefaultValue="{x:Null}" FormulaExpressionEvaluateOneTime="False" LabelForPrint="{x:Null}" LabelControlName="{x:Null}" LabelBold="True" ErrorLoadingNode="False" TextBoxWidth="Infinity" TextWrapping="Wrap" Text="{av:Binding ValidatesOnDataErrors=True, NotifyOnValidationError=True, Path=Model.mdTextBox0_1.Value, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="False" AcceptsReturn="True" AcceptsTab="True" TabIndex="5" Name="mdTextBox0_1" Width="Auto" Height="Auto" MinHeight="50" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ForceCursor="True" IsEnabled="True" Focusable="True" av:Canvas.Left="Auto" av:Canvas.Top="Auto" av:Grid.Column="1" av:Grid.Row="6" av:Grid.ColumnSpan="5" av:Grid.RowSpan="1" av:SpellCheck.IsEnabled="True" assembly:TextBoxHelper.HasText="False" />
+        <MDDropElement AllowDrop="True" av:Grid.Column="2" av:Grid.Row="7" />
+        <MDDropElement AllowDrop="True" av:Grid.Column="3" av:Grid.Row="7" />
+        <MDDropElement AllowDrop="True" av:Grid.Column="4" av:Grid.Row="7" />
+        <MDDropElement AllowDrop="True" av:Grid.Column="5" av:Grid.Row="7" />
+        <MDTextBlock Text="Naslov" Name="mdLbl12" Tag="{x:Null}" VerticalAlignment="Center" Visibility="Hidden" IsEnabled="True" av:Grid.Column="1" av:Grid.Row="7" av:Grid.ColumnSpan="1" av:Grid.RowSpan="1" />
+        <MDDropElement AllowDrop="True" av:Grid.Column="2" av:Grid.Row="3" />
+        <MDDropElement AllowDrop="True" av:Grid.Column="3" av:Grid.Row="3" />
+        <MDDropElement AllowDrop="True" av:Grid.Column="4" av:Grid.Row="3" />
+        <MDDropElement AllowDrop="True" av:Grid.Column="5" av:Grid.Row="3" />
+        <MDTextBlock Text="Naslov" Name="mdLbl16" Tag="{x:Null}" VerticalAlignment="Center" Visibility="Hidden" IsEnabled="True" av:Grid.Column="1" av:Grid.Row="3" av:Grid.ColumnSpan="1" av:Grid.RowSpan="1" />
+        <MDTextBlock Text="Naslov" Name="mdLbl17" Tag="{x:Null}" VerticalAlignment="Center" Visibility="Hidden" IsEnabled="True" av:Grid.Column="1" av:Grid.Row="14" av:Grid.ColumnSpan="1" av:Grid.RowSpan="1" />
+        <MDTextBlock Text="Naslov" Name="mdLbl18" Tag="{x:Null}" VerticalAlignment="Center" ContextMenu="{x:Null}" Visibility="Hidden" IsEnabled="True" av:Grid.Column="1" av:Grid.Row="10" av:Grid.ColumnSpan="5" av:Grid.RowSpan="1" />
+        <MDTextBlock Text="Komentar:" Name="mdLbl19" Tag="{x:Null}" VerticalAlignment="Center" ContextMenu="{x:Null}" IsEnabled="True" av:Grid.Column="1" av:Grid.Row="8" av:Grid.ColumnSpan="2" av:Grid.RowSpan="1" />
+        <MDTextBox IsEmpty="True" DefaultValue="{x:Null}" FormulaExpressionEvaluateOneTime="False" LabelForPrint="Komentar:" LabelControlName="mdLbl19" ErrorLoadingNode="False" TextBoxWidth="Infinity" TextWrapping="Wrap" Text="{av:Binding ValidatesOnDataErrors=True, NotifyOnValidationError=True, Path=Model.mdTextBox7.Value, UpdateSourceTrigger=PropertyChanged}" AcceptsReturn="True" VerticalScrollBarVisibility="Auto" Name="mdTextBox7" Tag="{x:Null}" Width="Auto" Height="Auto" HorizontalAlignment="Stretch" IsEnabled="True" Focusable="True" av:Canvas.Left="Auto" av:Canvas.Top="Auto" av:Grid.Column="1" av:Grid.Row="9" av:Grid.ColumnSpan="5" av:Grid.RowSpan="1" av:SpellCheck.IsEnabled="True" assembly:TextBoxHelper.HasText="False" />
+        <MDDropElement AllowDrop="True" av:Grid.Column="3" av:Grid.Row="11" />
+        <MDDropElement AllowDrop="True" av:Grid.Column="4" av:Grid.Row="11" />
+        <MDDropElement AllowDrop="True" av:Grid.Column="5" av:Grid.Row="11" />
+        <MDTextBlock Text="Liječnik - mlađa služba:" FontWeight="SemiBold" Name="mdLbl20" VerticalAlignment="Center" IsEnabled="True" av:Grid.Column="1" av:Grid.Row="11" av:Grid.ColumnSpan="1" av:Grid.RowSpan="1" />
+        <inbismdcgc:MDLookupDoctor Prefix="{x:Null}" Sufix="{x:Null}" Ime="{x:Null}" Prezime="{x:Null}" Specijalnost="{x:Null}" Subspecijalnost="{x:Null}" DjelatnikPravoGrupa="False" SignLogged="False" DoctorPermissionCode="14" Priority="2" IsEmpty="True" LabelBefore="Liječnik:" BindedValue="{av:Binding NotifyOnValidationError=True, Path=Model.mdLookup2.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" BindedValueDescription="{av:Binding ValidatesOnDataErrors=True, Path=Model.mdLookup2.ValueDescription, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" LabelBeforeWidth="60" LabelForPrint="Liječnik - mlađa služba:" LabelControlName="mdLbl20" DefaultValue="{x:Null}" FormulaExpressionEvaluateOneTime="False" SelectedItem="{x:Null}" ValueText="" DisplayText="" TextBoxWidth="55" Title="Nalaz napisao" SelectedValueID="" Name="mdLookup2" Tag="14" Width="200" MinWidth="55" IsEnabled="True" av:Grid.Column="2" av:Grid.Row="11" av:Grid.ColumnSpan="1" av:Grid.RowSpan="1" />
+        <MDDropElement AllowDrop="True" av:Grid.Column="3" av:Grid.Row="15" />
+        <MDDropElement AllowDrop="True" av:Grid.Column="4" av:Grid.Row="15" />
+        <MDDropElement AllowDrop="True" av:Grid.Column="5" av:Grid.Row="15" />
+        <inbismdcfc:MDFormula IsEmpty="True" BindedValue="{av:Binding NotifyOnValidationError=True, Path=Model.mdFormula0.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" FormulaExpression="@mdLookup2" LabelForPrint="Naslov" LabelControlName="mdLbl17" LabelShowInNewRow="True" RuntimeIsEnabled="True" TabIndex="0" Name="mdFormula0" Tag="{x:Null}" Visibility="Hidden" IsEnabled="True" av:Grid.Column="1" av:Grid.Row="15" av:Grid.ColumnSpan="1" av:Grid.RowSpan="1">
+          <inbismdcfc:MDFormula.FormulaCalculatedValue>
+            <av:MultiBinding Mode="TwoWay" UpdateSourceTrigger="Default" NotifyOnSourceUpdated="True" NotifyOnValidationError="True" ValidatesOnDataErrors="True">
+              <av:MultiBinding.Converter>
+                <inbismdc:MDFormulaExpressionConverter />
+              </av:MultiBinding.Converter>
+              <av:MultiBinding.ConverterParameter>
+                <inbismdm:ExpressionData Expression="@mdLookup2" StringFormat="{x:Null}" InverseResult="False" VariableTypes="String;" VariableNames="@mdLookup2;" />
+              </av:MultiBinding.ConverterParameter>
+              <av:Binding NotifyOnSourceUpdated="True" ValidatesOnDataErrors="True" NotifyOnValidationError="True" Path="SelectedItem.ItemValue" UpdateSourceTrigger="PropertyChanged" ElementName="mdLookup2" />
+            </av:MultiBinding>
+          </inbismdcfc:MDFormula.FormulaCalculatedValue>
+        </inbismdcfc:MDFormula>
+        <inbismdcfc:MDFormula IsEmpty="True" BindedValue="{av:Binding NotifyOnValidationError=True, Path=Model.mdFormula1.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" FormulaExpression="@mdLookup1" RuntimeIsEnabled="True" TabIndex="0" Name="mdFormula1" Tag="{x:Null}" Visibility="Hidden" IsEnabled="True" av:Grid.Column="2" av:Grid.Row="15" av:Grid.ColumnSpan="1" av:Grid.RowSpan="1">
+          <inbismdcfc:MDFormula.FormulaCalculatedValue>
+            <av:MultiBinding Mode="TwoWay" UpdateSourceTrigger="Default" NotifyOnSourceUpdated="True" NotifyOnValidationError="True" ValidatesOnDataErrors="True">
+              <av:MultiBinding.Converter>
+                <inbismdc:MDFormulaExpressionConverter />
+              </av:MultiBinding.Converter>
+              <av:MultiBinding.ConverterParameter>
+                <inbismdm:ExpressionData Expression="@mdLookup1" StringFormat="{x:Null}" InverseResult="False" VariableTypes="String;" VariableNames="@mdLookup1;" />
+              </av:MultiBinding.ConverterParameter>
+              <av:Binding NotifyOnSourceUpdated="True" ValidatesOnDataErrors="True" NotifyOnValidationError="True" Path="SelectedItem.ItemValue" UpdateSourceTrigger="PropertyChanged" ElementName="mdLookup1" />
+            </av:MultiBinding>
+          </inbismdcfc:MDFormula.FormulaCalculatedValue>
+        </inbismdcfc:MDFormula>
+        <MDDropElement AllowDrop="True" av:Grid.Column="2" av:Grid.Row="1" />
+        <MDDropElement AllowDrop="True" av:Grid.Column="3" av:Grid.Row="1" />
+        <MDDropElement AllowDrop="True" av:Grid.Column="4" av:Grid.Row="1" />
+        <MDTextBox IsEmpty="True" DefaultValue="{x:Null}" FormulaExpressionEvaluateOneTime="False" ErrorLoadingNode="False" Text="{av:Binding ValidatesOnDataErrors=True, NotifyOnValidationError=True, Path=Model.test_razlogdolaska.Value, UpdateSourceTrigger=PropertyChanged}" TabIndex="0" Name="test_razlogdolaska" Tag="HideInDesign" Visibility="Collapsed" av:Grid.Column="0" av:Grid.Row="0" av:SpellCheck.IsEnabled="True" assembly:TextBoxHelper.HasText="False" />
+        <MDTextBox IsEmpty="True" DefaultValue="{x:Null}" FormulaExpressionEvaluateOneTime="False" ErrorLoadingNode="False" Text="{av:Binding ValidatesOnDataErrors=True, NotifyOnValidationError=True, Path=Model.test_tekstnalaza.Value, UpdateSourceTrigger=PropertyChanged}" TabIndex="0" Name="test_tekstnalaza" Tag="HideInDesign" Visibility="Collapsed" av:Grid.Column="0" av:Grid.Row="0" av:SpellCheck.IsEnabled="True" assembly:TextBoxHelper.HasText="False" />
+        <MDTextBox IsEmpty="True" DefaultValue="{x:Null}" FormulaExpressionEvaluateOneTime="False" ErrorLoadingNode="False" Text="{av:Binding ValidatesOnDataErrors=True, NotifyOnValidationError=True, Path=Model.test_dijagnostika.Value, UpdateSourceTrigger=PropertyChanged}" TabIndex="0" Name="test_dijagnostika" Tag="HideInDesign" Visibility="Collapsed" av:Grid.Column="0" av:Grid.Row="0" av:SpellCheck.IsEnabled="True" assembly:TextBoxHelper.HasText="False" />
+        <MDDropElement AllowDrop="True" av:Grid.Column="5" av:Grid.Row="1" />
+        <MDRtfPart IsRtfPartMandatory="False" FormulaExpressionEvaluateOneTime="False" ErrorLoadingNode="False" IsReadOnly="False" IsToolBarVisible="True" Text="{av:Binding Path=Model.mdRtfPart0.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Name="mdRtfPart0" Tag="{x:Null}" MinHeight="150" IsEnabled="False" av:Canvas.Left="Auto" av:Canvas.Top="Auto" av:Grid.Column="1" av:Grid.Row="2" av:Grid.ColumnSpan="5" av:Grid.RowSpan="1" />
+      </MDGridControl>
+    </MDAdornerDecorator>
+  </MDTabItem>
+</MDTabControl>'
+--dokument  
+    IF(EXISTS(SELECT 1 FROM MD_Document WHERE Code = '1558'))
+    BEGIN 
+        SET @Code = (SELECT CONVERT(varchar(10),ISNULL(MAX(ID)+1,1)) from MD_Document) 
+        IF(EXISTS(SELECT 1 FROM MD_Document WHERE Code = @Code))
+        BEGIN 
+            SET @Code = (SELECT CONVERT(VARCHAR(10), ISNULL(MAX(CONVERT(INT, Code)) + 1, 1)) FROM MD_Document WHERE ISNUMERIC(Code) = 1) 
+        END 
+    END 
+    ELSE BEGIN 
+        SET @Code = (SELECT CONVERT(varchar(10),ISNULL(MAX(ID)+1,1)) from MD_Document) 
+        IF(EXISTS(SELECT 1 FROM MD_Document WHERE Code = @Code))
+        BEGIN 
+            SET @Code = (SELECT CONVERT(VARCHAR(10), ISNULL(MAX(CONVERT(INT, Code)) + 1, 1)) FROM MD_Document WHERE ISNUMERIC(Code) = 1) 
+        END 
+    END 
+    INSERT INTO [dbo].[MD_Document] ([Name], [FormXAML], [MD_DocumentTypeID], [UserInsert], [DateInsert], [UserUpdate], [DateUpdate], [Code], [IsLocked], [ValidationOff], [MinWidth], [MinHeight], [Bill], [IsActive], [DontSendToCezih], [ImportDiagnosisType], [ImportLastDiagnosesSettings], [SendForBilling], [ConcatenatedPrint], [ImportDocumentSettings], [DisableAutoImport], [DocumentFormOnly], [OnlyOriginalDoctorCanChange],[SendToExternalHis],[SendToOIS], [MD_DocumentSubTypeID], [EnableFileImport], [AttachmentFolderPath], [SendToFhirCezih])SELECT 'Povijest bolesti dnevne bolnice +_Copy',@xaml,5,1,getdate(),NULL,NULL,@Code,'False','False',NULL,NULL,'False','True','False',2,NULL,'False','True',0,'False','True','False','True','False',NULL,'False','','False'
+    SELECT @MD_Document_ID = SCOPE_IDENTITY() 
+    INSERT INTO [dbo].[MD_DocumentXaml]([Xaml], [MD_DocumentID], [DateFrom]) VALUES(@xaml, @MD_Document_ID, GETDATE()) 
+
+
+--kontrole  
+--deaktiviramo sve kontrole  
+UPDATE dc 
+     SET dc.Active=0 
+from MD_DocumentControl dc 
+ INNER join MD_DocumentDocumentControl ddc on ddc.MD_DocumentID=@MD_Document_ID and ddc.MD_DocumentControlID=dc.ID 
+
+--mdDate0
+SELECT @MD_DocumentControl_ID=dc.ID from MD_DocumentControl dc INNER join MD_DocumentDocumentControl ddc on ddc.MD_DocumentID=@MD_Document_ID and ddc.MD_DocumentControlID=dc.ID WHERE dc.Name='mdDate0'
+IF(@MD_DocumentControl_ID is not NULL) BEGIN 
+    UPDATE MD_DocumentControl 
+    SET   MD_ControlTypeID=6, Label='', ParentDocumentControlID=NULL, UserUpdate=1, DateUpdate=GETDATE(), MD_DocumentControlSourceID=NULL, DataFormat=NULL, Formula=NULL, Active=1,MD_DocumentControlContextID=NULL, LabelShowIfEmpty='False', Display=0, PrintDirection=0, GroupName='', PrintDelimiter=' ', DontSendToCezih='False', LabelControlName=NULL,[DefaultValue]=ISNULL(CONVERT(varchar(30),@RtftPartID),'True'),LabelBold= 'False' ,DataBold= 'False' ,DoctorPermissionCode= NULL,MD_DocumentControlDataType= '4',RoleID= NULL,ShortTooltip= NULL,PrintShortTooltip ='False' ,Consumption ='False' ,VisitDiagnosis ='False' ,[Print] =0  WHERE ID=@MD_DocumentControl_ID 
+END ELSE BEGIN 
+    INSERT INTO [dbo].[MD_DocumentControl] ([MD_ControlTypeID], [Name], [Label],  [ParentDocumentControlID], [UserUpdate], [DateUpdate], [MD_DocumentControlSourceID], [DataFormat], [Formula], [Active], [MD_DocumentControlContextID], [LabelShowIfEmpty],[LabelShowInNewRow], [Display],[PrintDirection],[GroupName],[PrintDelimiter],[DontSendToCezih],[LabelControlName],[DefaultValue], [LabelBold], [DataBold], [MD_DocumentControlDataType], RoleID, PrintShortTooltip, Consumption, [Print], VisitDiagnosis) SELECT 6,'mdDate0','',NULL, 1,GETDATE(),NULL,NULL,NULL,'True',NULL,'False','False',0,0,'',' ','False', NULL,ISNULL(CONVERT(varchar(30),@RtftPartID),'True'), 'False' , 'False' ,'4', NULL, 'False' , 'False' , 0 , 'False' 
+    SELECT @MD_DocumentControl_ID = SCOPE_IDENTITY() 
+    INSERT INTO MD_DocumentDocumentControl (MD_DocumentID, MD_DocumentControlID) VALUES ( @MD_Document_ID,	@MD_DocumentControl_ID) 
+  
+END 
+SET @MD_DocumentControl_ID=NULL
+--mdLookup1
+SELECT @MD_DocumentControl_ID=dc.ID from MD_DocumentControl dc INNER join MD_DocumentDocumentControl ddc on ddc.MD_DocumentID=@MD_Document_ID and ddc.MD_DocumentControlID=dc.ID WHERE dc.Name='mdLookup1'
+IF(@MD_DocumentControl_ID is not NULL) BEGIN 
+    UPDATE MD_DocumentControl 
+    SET   MD_ControlTypeID=8, Label='', ParentDocumentControlID=NULL, UserUpdate=1, DateUpdate=GETDATE(), MD_DocumentControlSourceID=NULL, DataFormat=NULL, Formula=NULL, Active=1,MD_DocumentControlContextID=NULL, LabelShowIfEmpty='False', Display=0, PrintDirection=0, GroupName='', PrintDelimiter=' ', DontSendToCezih='False', LabelControlName=NULL,LabelBold= 'False' ,DataBold= 'False' ,DoctorPermissionCode= '6',MD_DocumentControlDataType= '22',RoleID= NULL,ShortTooltip= NULL,PrintShortTooltip ='False' ,Consumption ='False' ,VisitDiagnosis ='False' ,[Print] =0  WHERE ID=@MD_DocumentControl_ID 
+END ELSE BEGIN 
+    INSERT INTO [dbo].[MD_DocumentControl] ([MD_ControlTypeID], [Name], [Label],  [ParentDocumentControlID], [UserUpdate], [DateUpdate], [MD_DocumentControlSourceID], [DataFormat], [Formula], [Active], [MD_DocumentControlContextID], [LabelShowIfEmpty],[LabelShowInNewRow], [Display],[PrintDirection],[GroupName],[PrintDelimiter],[DontSendToCezih],[LabelControlName], [LabelBold], [DataBold], [DoctorPermissionCode], [MD_DocumentControlDataType], RoleID, PrintShortTooltip, Consumption, [Print], VisitDiagnosis) SELECT 8,'mdLookup1','',NULL, 1,GETDATE(),NULL,NULL,NULL,'True',NULL,'False','False',0,0,'',' ','False', NULL, 'False' , 'False' ,'6','22', NULL, 'False' , 'False' , 0 , 'False' 
+    SELECT @MD_DocumentControl_ID = SCOPE_IDENTITY() 
+    INSERT INTO MD_DocumentDocumentControl (MD_DocumentID, MD_DocumentControlID) VALUES ( @MD_Document_ID,	@MD_DocumentControl_ID) 
+  
+END 
+SET @MD_DocumentControl_ID=NULL
+--mdDijagnoze0
+SELECT @MD_DocumentControl_ID=dc.ID from MD_DocumentControl dc INNER join MD_DocumentDocumentControl ddc on ddc.MD_DocumentID=@MD_Document_ID and ddc.MD_DocumentControlID=dc.ID WHERE dc.Name='mdDijagnoze0'
+IF(@MD_DocumentControl_ID is not NULL) BEGIN 
+    UPDATE MD_DocumentControl 
+    SET   MD_ControlTypeID=16, Label='Naslov', ParentDocumentControlID=NULL, UserUpdate=1, DateUpdate=GETDATE(), MD_DocumentControlSourceID=NULL, DataFormat=NULL, Formula=NULL, Active=1,MD_DocumentControlContextID=NULL, LabelShowIfEmpty='False', Display=0, PrintDirection=0, GroupName='', PrintDelimiter=' ', DontSendToCezih='False', LabelControlName='mdLbl16',LabelBold= 'False' ,DataBold= 'False' ,DoctorPermissionCode= NULL,MD_DocumentControlDataType= NULL,RoleID= NULL,ShortTooltip= NULL,PrintShortTooltip ='False' ,Consumption ='False' ,VisitDiagnosis ='False' ,[Print] =0  WHERE ID=@MD_DocumentControl_ID 
+END ELSE BEGIN 
+    INSERT INTO [dbo].[MD_DocumentControl] ([MD_ControlTypeID], [Name], [Label],  [ParentDocumentControlID], [UserUpdate], [DateUpdate], [MD_DocumentControlSourceID], [DataFormat], [Formula], [Active], [MD_DocumentControlContextID], [LabelShowIfEmpty],[LabelShowInNewRow], [Display],[PrintDirection],[GroupName],[PrintDelimiter],[DontSendToCezih],[LabelControlName], [LabelBold], [DataBold], RoleID, PrintShortTooltip, Consumption, [Print], VisitDiagnosis) SELECT 16,'mdDijagnoze0','Naslov',NULL, 1,GETDATE(),NULL,NULL,NULL,'True',NULL,'False','True',0,0,'',' ','False', 'mdLbl16', 'False' , 'False' , NULL, 'False' , 'False' , 0 , 'False' 
+    SELECT @MD_DocumentControl_ID = SCOPE_IDENTITY() 
+    INSERT INTO MD_DocumentDocumentControl (MD_DocumentID, MD_DocumentControlID) VALUES ( @MD_Document_ID,	@MD_DocumentControl_ID) 
+  
+END 
+SET @ParentGroupID = NULL 
+-- MD_GlobalControlGroup
+IF NOT EXISTS(SELECT ID FROM MD_GlobalControlGroup WHERE CODE='Diagnosis') BEGIN 
+    INSERT INTO MD_GlobalControlGroup(Code, Description, Name, ParentGroupID) VALUES('Diagnosis', 'Dijagnoze', 'Dijagnoze', @ParentGroupID) 
+    SET @ParentGroupID = SCOPE_IDENTITY() 
+END ELSE BEGIN
+    UPDATE MD_GlobalControlGroup SET Description = 'Dijagnoze',  Name = 'Dijagnoze' WHERE code = 'Diagnosis' 
+    SET @ParentGroupID = (SELECT ID FROM MD_GlobalControlGroup WHERE CODE='Diagnosis') 
+END 
+-- MD_GlobalControl
+IF(NOT EXISTS(SELECT TOP 1 1 FROM MD_GlobalControl gc WHERE gc.Code = 'VezaneDijagnoze')) 
+BEGIN 
+    INSERT INTO MD_GlobalControl(Code, Name, Description, GlobalControlGroupID, DataSourceID, IsUserDefined, IsReadOnly, IsActive, TestData, DisplayFormat, DataTypeID, IsMultiSelect, RefControlTypeID) VALUES('VezaneDijagnoze', 'Vezane dijagnoze', 'Dijagnoze vezane na dokument', @ParentGroupID, 9, 0, 1, 1, 'A00 Dijagnoza 1
+A01 Dijagnoza 2', NULL ,22, 0, 1) 
+END ELSE
+BEGIN 
+    UPDATE MD_GlobalControl SET Description = 'Dijagnoze vezane na dokument', Name = 'Vezane dijagnoze', GlobalControlGroupID = @ParentGroupID,  DataSourceID = 9, IsUserDefined = 0, IsReadOnly = 1, IsActive = 1, TestData = 'A00 Dijagnoza 1
+A01 Dijagnoza 2', DisplayFormat = NULL, DataTypeID = 22, IsMultiSelect = 0, RefControlTypeID = 1 WHERE Code = 'VezaneDijagnoze'  
+END 
+
+IF NOT EXISTS(SELECT 1 from MD_DocumentControlDataSource where DocumentControlID=@MD_DocumentControl_ID) BEGIN 
+    INSERT MD_DocumentControlDataSource ( DocumentControlID, RefControlID, RefControlTypeID, ControlConnectionTypeID, ControlConnectionLevelID, ControlParametar, ControlParametarRange, DisplayFormat )
+    SELECT @MD_DocumentControl_ID, (SELECT ID FROM MD_GlobalControl WHERE CODE='VezaneDijagnoze'),1,1, 2, NULL, NULL, NULL
+END ELSE BEGIN
+    UPDATE MD_DocumentControlDataSource SET RefControlID=(SELECT ID FROM MD_GlobalControl WHERE CODE='VezaneDijagnoze'),RefControlTypeID= 1,ControlConnectionTypeID=1,ControlConnectionLevelID=2, ControlParametar=NULL, ControlParametarRange=NULL, DisplayFormat=NULL
+    WHERE DocumentControlID=@MD_DocumentControl_ID
+END 
+SET @MD_DocumentControl_ID=NULL
+--mdTextBox0
+SELECT @MD_DocumentControl_ID=dc.ID from MD_DocumentControl dc INNER join MD_DocumentDocumentControl ddc on ddc.MD_DocumentID=@MD_Document_ID and ddc.MD_DocumentControlID=dc.ID WHERE dc.Name='mdTextBox0'
+IF(@MD_DocumentControl_ID is not NULL) BEGIN 
+    UPDATE MD_DocumentControl 
+    SET   MD_ControlTypeID=1, Label='Ostale dijagnoze', ParentDocumentControlID=NULL, UserUpdate=1, DateUpdate=GETDATE(), MD_DocumentControlSourceID=NULL, DataFormat=NULL, Formula=NULL, Active=1,MD_DocumentControlContextID=NULL, LabelShowIfEmpty='False', Display=0, PrintDirection=0, GroupName='', PrintDelimiter=' ', DontSendToCezih='False', LabelControlName='mdLbl10',LabelBold= 'True' ,DataBold= 'False' ,DoctorPermissionCode= NULL,MD_DocumentControlDataType= NULL,RoleID= NULL,ShortTooltip= NULL,PrintShortTooltip ='False' ,Consumption ='False' ,VisitDiagnosis ='False' ,[Print] =0  WHERE ID=@MD_DocumentControl_ID 
+END ELSE BEGIN 
+    INSERT INTO [dbo].[MD_DocumentControl] ([MD_ControlTypeID], [Name], [Label],  [ParentDocumentControlID], [UserUpdate], [DateUpdate], [MD_DocumentControlSourceID], [DataFormat], [Formula], [Active], [MD_DocumentControlContextID], [LabelShowIfEmpty],[LabelShowInNewRow], [Display],[PrintDirection],[GroupName],[PrintDelimiter],[DontSendToCezih],[LabelControlName], [LabelBold], [DataBold], RoleID, PrintShortTooltip, Consumption, [Print], VisitDiagnosis) SELECT 1,'mdTextBox0','Ostale dijagnoze',NULL, 1,GETDATE(),NULL,NULL,NULL,'True',NULL,'False','True',0,0,'',' ','False', 'mdLbl10', 'True' , 'False' , NULL, 'False' , 'False' , 0 , 'False' 
+    SELECT @MD_DocumentControl_ID = SCOPE_IDENTITY() 
+    INSERT INTO MD_DocumentDocumentControl (MD_DocumentID, MD_DocumentControlID) VALUES ( @MD_Document_ID,	@MD_DocumentControl_ID) 
+  
+END 
+SET @MD_DocumentControl_ID=NULL
+--mdTextBox0_1
+SELECT @MD_DocumentControl_ID=dc.ID from MD_DocumentControl dc INNER join MD_DocumentDocumentControl ddc on ddc.MD_DocumentID=@MD_Document_ID and ddc.MD_DocumentControlID=dc.ID WHERE dc.Name='mdTextBox0_1'
+IF(@MD_DocumentControl_ID is not NULL) BEGIN 
+    UPDATE MD_DocumentControl 
+    SET   MD_ControlTypeID=1, Label='', ParentDocumentControlID=NULL, UserUpdate=1, DateUpdate=GETDATE(), MD_DocumentControlSourceID=NULL, DataFormat=NULL, Formula=NULL, Active=1,MD_DocumentControlContextID=NULL, LabelShowIfEmpty='False', Display=0, PrintDirection=0, GroupName='', PrintDelimiter=' ', DontSendToCezih='False', LabelControlName=NULL,LabelBold= 'True' ,DataBold= 'False' ,DoctorPermissionCode= NULL,MD_DocumentControlDataType= NULL,RoleID= NULL,ShortTooltip= NULL,PrintShortTooltip ='False' ,Consumption ='False' ,VisitDiagnosis ='False' ,[Print] =0  WHERE ID=@MD_DocumentControl_ID 
+END ELSE BEGIN 
+    INSERT INTO [dbo].[MD_DocumentControl] ([MD_ControlTypeID], [Name], [Label],  [ParentDocumentControlID], [UserUpdate], [DateUpdate], [MD_DocumentControlSourceID], [DataFormat], [Formula], [Active], [MD_DocumentControlContextID], [LabelShowIfEmpty],[LabelShowInNewRow], [Display],[PrintDirection],[GroupName],[PrintDelimiter],[DontSendToCezih],[LabelControlName], [LabelBold], [DataBold], RoleID, PrintShortTooltip, Consumption, [Print], VisitDiagnosis) SELECT 1,'mdTextBox0_1','',NULL, 1,GETDATE(),NULL,NULL,NULL,'True',NULL,'False','False',0,0,'',' ','False', NULL, 'True' , 'False' , NULL, 'False' , 'False' , 0 , 'False' 
+    SELECT @MD_DocumentControl_ID = SCOPE_IDENTITY() 
+    INSERT INTO MD_DocumentDocumentControl (MD_DocumentID, MD_DocumentControlID) VALUES ( @MD_Document_ID,	@MD_DocumentControl_ID) 
+  
+END 
+SET @MD_DocumentControl_ID=NULL
+--mdTextBox7
+SELECT @MD_DocumentControl_ID=dc.ID from MD_DocumentControl dc INNER join MD_DocumentDocumentControl ddc on ddc.MD_DocumentID=@MD_Document_ID and ddc.MD_DocumentControlID=dc.ID WHERE dc.Name='mdTextBox7'
+IF(@MD_DocumentControl_ID is not NULL) BEGIN 
+    UPDATE MD_DocumentControl 
+    SET   MD_ControlTypeID=1, Label='Komentar:', ParentDocumentControlID=NULL, UserUpdate=1, DateUpdate=GETDATE(), MD_DocumentControlSourceID=NULL, DataFormat=NULL, Formula=NULL, Active=1,MD_DocumentControlContextID=NULL, LabelShowIfEmpty='False', Display=0, PrintDirection=0, GroupName='', PrintDelimiter=' ', DontSendToCezih='False', LabelControlName='mdLbl19',LabelBold= 'False' ,DataBold= 'False' ,DoctorPermissionCode= NULL,MD_DocumentControlDataType= NULL,RoleID= NULL,ShortTooltip= NULL,PrintShortTooltip ='False' ,Consumption ='False' ,VisitDiagnosis ='False' ,[Print] =0  WHERE ID=@MD_DocumentControl_ID 
+END ELSE BEGIN 
+    INSERT INTO [dbo].[MD_DocumentControl] ([MD_ControlTypeID], [Name], [Label],  [ParentDocumentControlID], [UserUpdate], [DateUpdate], [MD_DocumentControlSourceID], [DataFormat], [Formula], [Active], [MD_DocumentControlContextID], [LabelShowIfEmpty],[LabelShowInNewRow], [Display],[PrintDirection],[GroupName],[PrintDelimiter],[DontSendToCezih],[LabelControlName], [LabelBold], [DataBold], RoleID, PrintShortTooltip, Consumption, [Print], VisitDiagnosis) SELECT 1,'mdTextBox7','Komentar:',NULL, 1,GETDATE(),NULL,NULL,NULL,'True',NULL,'False','False',0,0,'',' ','False', 'mdLbl19', 'False' , 'False' , NULL, 'False' , 'False' , 0 , 'False' 
+    SELECT @MD_DocumentControl_ID = SCOPE_IDENTITY() 
+    INSERT INTO MD_DocumentDocumentControl (MD_DocumentID, MD_DocumentControlID) VALUES ( @MD_Document_ID,	@MD_DocumentControl_ID) 
+  
+END 
+SET @MD_DocumentControl_ID=NULL
+--mdLookup2
+SELECT @MD_DocumentControl_ID=dc.ID from MD_DocumentControl dc INNER join MD_DocumentDocumentControl ddc on ddc.MD_DocumentID=@MD_Document_ID and ddc.MD_DocumentControlID=dc.ID WHERE dc.Name='mdLookup2'
+IF(@MD_DocumentControl_ID is not NULL) BEGIN 
+    UPDATE MD_DocumentControl 
+    SET   MD_ControlTypeID=8, Label='Liječnik - mlađa služba:', ParentDocumentControlID=NULL, UserUpdate=1, DateUpdate=GETDATE(), MD_DocumentControlSourceID=NULL, DataFormat=NULL, Formula=NULL, Active=1,MD_DocumentControlContextID=NULL, LabelShowIfEmpty='False', Display=0, PrintDirection=0, GroupName='', PrintDelimiter=' ', DontSendToCezih='False', LabelControlName='mdLbl20',LabelBold= 'False' ,DataBold= 'False' ,DoctorPermissionCode= '14',MD_DocumentControlDataType= '22',RoleID= NULL,ShortTooltip= NULL,PrintShortTooltip ='False' ,Consumption ='False' ,VisitDiagnosis ='False' ,[Print] =0  WHERE ID=@MD_DocumentControl_ID 
+END ELSE BEGIN 
+    INSERT INTO [dbo].[MD_DocumentControl] ([MD_ControlTypeID], [Name], [Label],  [ParentDocumentControlID], [UserUpdate], [DateUpdate], [MD_DocumentControlSourceID], [DataFormat], [Formula], [Active], [MD_DocumentControlContextID], [LabelShowIfEmpty],[LabelShowInNewRow], [Display],[PrintDirection],[GroupName],[PrintDelimiter],[DontSendToCezih],[LabelControlName], [LabelBold], [DataBold], [DoctorPermissionCode], [MD_DocumentControlDataType], RoleID, PrintShortTooltip, Consumption, [Print], VisitDiagnosis) SELECT 8,'mdLookup2','Liječnik - mlađa služba:',NULL, 1,GETDATE(),NULL,NULL,NULL,'True',NULL,'False','False',0,0,'',' ','False', 'mdLbl20', 'False' , 'False' ,'14','22', NULL, 'False' , 'False' , 0 , 'False' 
+    SELECT @MD_DocumentControl_ID = SCOPE_IDENTITY() 
+    INSERT INTO MD_DocumentDocumentControl (MD_DocumentID, MD_DocumentControlID) VALUES ( @MD_Document_ID,	@MD_DocumentControl_ID) 
+  
+END 
+SET @MD_DocumentControl_ID=NULL
+--mdFormula0
+SELECT @MD_DocumentControl_ID=dc.ID from MD_DocumentControl dc INNER join MD_DocumentDocumentControl ddc on ddc.MD_DocumentID=@MD_Document_ID and ddc.MD_DocumentControlID=dc.ID WHERE dc.Name='mdFormula0'
+IF(@MD_DocumentControl_ID is not NULL) BEGIN 
+    UPDATE MD_DocumentControl 
+    SET   MD_ControlTypeID=9, Label='Naslov', ParentDocumentControlID=NULL, UserUpdate=1, DateUpdate=GETDATE(), MD_DocumentControlSourceID=NULL, DataFormat=NULL, Formula=NULL, Active=1,MD_DocumentControlContextID=NULL, LabelShowIfEmpty='False', Display=0, PrintDirection=0, GroupName='', PrintDelimiter=' ', DontSendToCezih='False', LabelControlName=NULL,LabelBold= 'False' ,DataBold= 'False' ,DoctorPermissionCode= NULL,MD_DocumentControlDataType= NULL,RoleID= NULL,ShortTooltip= NULL,PrintShortTooltip ='False' ,Consumption ='False' ,VisitDiagnosis ='False' ,[Print] =0  WHERE ID=@MD_DocumentControl_ID 
+END ELSE BEGIN 
+    INSERT INTO [dbo].[MD_DocumentControl] ([MD_ControlTypeID], [Name], [Label],  [ParentDocumentControlID], [UserUpdate], [DateUpdate], [MD_DocumentControlSourceID], [DataFormat], [Formula], [Active], [MD_DocumentControlContextID], [LabelShowIfEmpty],[LabelShowInNewRow], [Display],[PrintDirection],[GroupName],[PrintDelimiter],[DontSendToCezih],[LabelControlName], [LabelBold], [DataBold], RoleID, PrintShortTooltip, Consumption, [Print], VisitDiagnosis) SELECT 9,'mdFormula0','Naslov',NULL, 1,GETDATE(),NULL,NULL,NULL,'True',NULL,'False','True',0,0,'',' ','False', NULL, 'False' , 'False' , NULL, 'False' , 'False' , 0 , 'False' 
+    SELECT @MD_DocumentControl_ID = SCOPE_IDENTITY() 
+    INSERT INTO MD_DocumentDocumentControl (MD_DocumentID, MD_DocumentControlID) VALUES ( @MD_Document_ID,	@MD_DocumentControl_ID) 
+  
+END 
+SET @MD_DocumentControl_ID=NULL
+--mdFormula1
+SELECT @MD_DocumentControl_ID=dc.ID from MD_DocumentControl dc INNER join MD_DocumentDocumentControl ddc on ddc.MD_DocumentID=@MD_Document_ID and ddc.MD_DocumentControlID=dc.ID WHERE dc.Name='mdFormula1'
+IF(@MD_DocumentControl_ID is not NULL) BEGIN 
+    UPDATE MD_DocumentControl 
+    SET   MD_ControlTypeID=9, Label='', ParentDocumentControlID=NULL, UserUpdate=1, DateUpdate=GETDATE(), MD_DocumentControlSourceID=NULL, DataFormat=NULL, Formula=NULL, Active=1,MD_DocumentControlContextID=NULL, LabelShowIfEmpty='False', Display=0, PrintDirection=0, GroupName='', PrintDelimiter=' ', DontSendToCezih='False', LabelControlName=NULL,LabelBold= 'False' ,DataBold= 'False' ,DoctorPermissionCode= NULL,MD_DocumentControlDataType= NULL,RoleID= NULL,ShortTooltip= NULL,PrintShortTooltip ='False' ,Consumption ='False' ,VisitDiagnosis ='False' ,[Print] =0  WHERE ID=@MD_DocumentControl_ID 
+END ELSE BEGIN 
+    INSERT INTO [dbo].[MD_DocumentControl] ([MD_ControlTypeID], [Name], [Label],  [ParentDocumentControlID], [UserUpdate], [DateUpdate], [MD_DocumentControlSourceID], [DataFormat], [Formula], [Active], [MD_DocumentControlContextID], [LabelShowIfEmpty],[LabelShowInNewRow], [Display],[PrintDirection],[GroupName],[PrintDelimiter],[DontSendToCezih],[LabelControlName], [LabelBold], [DataBold], RoleID, PrintShortTooltip, Consumption, [Print], VisitDiagnosis) SELECT 9,'mdFormula1','',NULL, 1,GETDATE(),NULL,NULL,NULL,'True',NULL,'False','False',0,0,'',' ','False', NULL, 'False' , 'False' , NULL, 'False' , 'False' , 0 , 'False' 
+    SELECT @MD_DocumentControl_ID = SCOPE_IDENTITY() 
+    INSERT INTO MD_DocumentDocumentControl (MD_DocumentID, MD_DocumentControlID) VALUES ( @MD_Document_ID,	@MD_DocumentControl_ID) 
+  
+END 
+SET @MD_DocumentControl_ID=NULL
+--test_razlogdolaska
+SELECT @MD_DocumentControl_ID=dc.ID from MD_DocumentControl dc INNER join MD_DocumentDocumentControl ddc on ddc.MD_DocumentID=@MD_Document_ID and ddc.MD_DocumentControlID=dc.ID WHERE dc.Name='test_razlogdolaska'
+IF(@MD_DocumentControl_ID is not NULL) BEGIN 
+    UPDATE MD_DocumentControl 
+    SET   MD_ControlTypeID=1, Label='', ParentDocumentControlID=NULL, UserUpdate=1, DateUpdate=GETDATE(), MD_DocumentControlSourceID=NULL, DataFormat=NULL, Formula=NULL, Active=1,MD_DocumentControlContextID=NULL, LabelShowIfEmpty='False', Display=0, PrintDirection=0, GroupName='', PrintDelimiter=' ', DontSendToCezih='False', LabelControlName=NULL,LabelBold= 'False' ,DataBold= 'False' ,DoctorPermissionCode= NULL,MD_DocumentControlDataType= NULL,RoleID= NULL,ShortTooltip= NULL,PrintShortTooltip ='False' ,Consumption ='False' ,VisitDiagnosis ='False' ,[Print] =0  WHERE ID=@MD_DocumentControl_ID 
+END ELSE BEGIN 
+    INSERT INTO [dbo].[MD_DocumentControl] ([MD_ControlTypeID], [Name], [Label],  [ParentDocumentControlID], [UserUpdate], [DateUpdate], [MD_DocumentControlSourceID], [DataFormat], [Formula], [Active], [MD_DocumentControlContextID], [LabelShowIfEmpty],[LabelShowInNewRow], [Display],[PrintDirection],[GroupName],[PrintDelimiter],[DontSendToCezih],[LabelControlName], [LabelBold], [DataBold], RoleID, PrintShortTooltip, Consumption, [Print], VisitDiagnosis) SELECT 1,'test_razlogdolaska','',NULL, 1,GETDATE(),NULL,NULL,NULL,'True',NULL,'False','False',0,0,'',' ','False', NULL, 'False' , 'False' , NULL, 'False' , 'False' , 0 , 'False' 
+    SELECT @MD_DocumentControl_ID = SCOPE_IDENTITY() 
+    INSERT INTO MD_DocumentDocumentControl (MD_DocumentID, MD_DocumentControlID) VALUES ( @MD_Document_ID,	@MD_DocumentControl_ID) 
+  
+END 
+SET @MD_DocumentControl_ID=NULL
+--test_tekstnalaza
+SELECT @MD_DocumentControl_ID=dc.ID from MD_DocumentControl dc INNER join MD_DocumentDocumentControl ddc on ddc.MD_DocumentID=@MD_Document_ID and ddc.MD_DocumentControlID=dc.ID WHERE dc.Name='test_tekstnalaza'
+IF(@MD_DocumentControl_ID is not NULL) BEGIN 
+    UPDATE MD_DocumentControl 
+    SET   MD_ControlTypeID=1, Label='', ParentDocumentControlID=NULL, UserUpdate=1, DateUpdate=GETDATE(), MD_DocumentControlSourceID=NULL, DataFormat=NULL, Formula=NULL, Active=1,MD_DocumentControlContextID=NULL, LabelShowIfEmpty='False', Display=0, PrintDirection=0, GroupName='', PrintDelimiter=' ', DontSendToCezih='False', LabelControlName=NULL,LabelBold= 'False' ,DataBold= 'False' ,DoctorPermissionCode= NULL,MD_DocumentControlDataType= NULL,RoleID= NULL,ShortTooltip= NULL,PrintShortTooltip ='False' ,Consumption ='False' ,VisitDiagnosis ='False' ,[Print] =0  WHERE ID=@MD_DocumentControl_ID 
+END ELSE BEGIN 
+    INSERT INTO [dbo].[MD_DocumentControl] ([MD_ControlTypeID], [Name], [Label],  [ParentDocumentControlID], [UserUpdate], [DateUpdate], [MD_DocumentControlSourceID], [DataFormat], [Formula], [Active], [MD_DocumentControlContextID], [LabelShowIfEmpty],[LabelShowInNewRow], [Display],[PrintDirection],[GroupName],[PrintDelimiter],[DontSendToCezih],[LabelControlName], [LabelBold], [DataBold], RoleID, PrintShortTooltip, Consumption, [Print], VisitDiagnosis) SELECT 1,'test_tekstnalaza','',NULL, 1,GETDATE(),NULL,NULL,NULL,'True',NULL,'False','False',0,0,'',' ','False', NULL, 'False' , 'False' , NULL, 'False' , 'False' , 0 , 'False' 
+    SELECT @MD_DocumentControl_ID = SCOPE_IDENTITY() 
+    INSERT INTO MD_DocumentDocumentControl (MD_DocumentID, MD_DocumentControlID) VALUES ( @MD_Document_ID,	@MD_DocumentControl_ID) 
+  
+END 
+SET @MD_DocumentControl_ID=NULL
+--test_dijagnostika
+SELECT @MD_DocumentControl_ID=dc.ID from MD_DocumentControl dc INNER join MD_DocumentDocumentControl ddc on ddc.MD_DocumentID=@MD_Document_ID and ddc.MD_DocumentControlID=dc.ID WHERE dc.Name='test_dijagnostika'
+IF(@MD_DocumentControl_ID is not NULL) BEGIN 
+    UPDATE MD_DocumentControl 
+    SET   MD_ControlTypeID=1, Label='', ParentDocumentControlID=NULL, UserUpdate=1, DateUpdate=GETDATE(), MD_DocumentControlSourceID=NULL, DataFormat=NULL, Formula=NULL, Active=1,MD_DocumentControlContextID=NULL, LabelShowIfEmpty='False', Display=0, PrintDirection=0, GroupName='', PrintDelimiter=' ', DontSendToCezih='False', LabelControlName=NULL,LabelBold= 'False' ,DataBold= 'False' ,DoctorPermissionCode= NULL,MD_DocumentControlDataType= NULL,RoleID= NULL,ShortTooltip= NULL,PrintShortTooltip ='False' ,Consumption ='False' ,VisitDiagnosis ='False' ,[Print] =0  WHERE ID=@MD_DocumentControl_ID 
+END ELSE BEGIN 
+    INSERT INTO [dbo].[MD_DocumentControl] ([MD_ControlTypeID], [Name], [Label],  [ParentDocumentControlID], [UserUpdate], [DateUpdate], [MD_DocumentControlSourceID], [DataFormat], [Formula], [Active], [MD_DocumentControlContextID], [LabelShowIfEmpty],[LabelShowInNewRow], [Display],[PrintDirection],[GroupName],[PrintDelimiter],[DontSendToCezih],[LabelControlName], [LabelBold], [DataBold], RoleID, PrintShortTooltip, Consumption, [Print], VisitDiagnosis) SELECT 1,'test_dijagnostika','',NULL, 1,GETDATE(),NULL,NULL,NULL,'True',NULL,'False','False',0,0,'',' ','False', NULL, 'False' , 'False' , NULL, 'False' , 'False' , 0 , 'False' 
+    SELECT @MD_DocumentControl_ID = SCOPE_IDENTITY() 
+    INSERT INTO MD_DocumentDocumentControl (MD_DocumentID, MD_DocumentControlID) VALUES ( @MD_Document_ID,	@MD_DocumentControl_ID) 
+  
+END 
+SET @ParentGroupID = NULL 
+-- MD_GlobalControlGroup
+IF NOT EXISTS(SELECT ID FROM MD_GlobalControlGroup WHERE CODE='Admission') BEGIN 
+    INSERT INTO MD_GlobalControlGroup(Code, Description, Name, ParentGroupID) VALUES('Admission', 'Prijem', 'Prijem', @ParentGroupID) 
+    SET @ParentGroupID = SCOPE_IDENTITY() 
+END ELSE BEGIN
+    UPDATE MD_GlobalControlGroup SET Description = 'Prijem',  Name = 'Prijem' WHERE code = 'Admission' 
+    SET @ParentGroupID = (SELECT ID FROM MD_GlobalControlGroup WHERE CODE='Admission') 
+END 
+-- MD_GlobalControl
+IF(NOT EXISTS(SELECT TOP 1 1 FROM MD_GlobalControl gc WHERE gc.Code = 'dijagnostika_kolonoskopija')) 
+BEGIN 
+    INSERT INTO MD_GlobalControl(Code, Name, Description, GlobalControlGroupID, DataSourceID, IsUserDefined, IsReadOnly, IsActive, TestData, DisplayFormat, DataTypeID, IsMultiSelect, RefControlTypeID) VALUES('dijagnostika_kolonoskopija', 'dijagnostika_kolonoskopija', '', @ParentGroupID, 7, 1, 1, 1, 'dijagnostika_kolonoskopija', NULL ,22, 0, 2) 
+END ELSE
+BEGIN 
+    UPDATE MD_GlobalControl SET Description = '', Name = 'dijagnostika_kolonoskopija', GlobalControlGroupID = @ParentGroupID,  DataSourceID = 7, IsUserDefined = 1, IsReadOnly = 1, IsActive = 1, TestData = 'dijagnostika_kolonoskopija', DisplayFormat = NULL, DataTypeID = 22, IsMultiSelect = 0, RefControlTypeID = 2 WHERE Code = 'dijagnostika_kolonoskopija'  
+END 
+
+IF NOT EXISTS(SELECT 1 from MD_DocumentControlDataSource where DocumentControlID=@MD_DocumentControl_ID) BEGIN 
+    INSERT MD_DocumentControlDataSource ( DocumentControlID, RefControlID, RefControlTypeID, ControlConnectionTypeID, ControlConnectionLevelID, ControlParametar, ControlParametarRange, DisplayFormat )
+    SELECT @MD_DocumentControl_ID, (SELECT ID FROM MD_GlobalControl WHERE CODE='dijagnostika_kolonoskopija'),1,1, 1, NULL, NULL, NULL
+END ELSE BEGIN
+    UPDATE MD_DocumentControlDataSource SET RefControlID=(SELECT ID FROM MD_GlobalControl WHERE CODE='dijagnostika_kolonoskopija'),RefControlTypeID= 1,ControlConnectionTypeID=1,ControlConnectionLevelID=1, ControlParametar=NULL, ControlParametarRange=NULL, DisplayFormat=NULL
+    WHERE DocumentControlID=@MD_DocumentControl_ID
+END 
+SET @MD_DocumentControl_ID=NULL
+--mdRtfPart0
+SELECT @MD_DocumentControl_ID=dc.ID from MD_DocumentControl dc INNER join MD_DocumentDocumentControl ddc on ddc.MD_DocumentID=@MD_Document_ID and ddc.MD_DocumentControlID=dc.ID WHERE dc.Name='mdRtfPart0'
+IF(@MD_DocumentControl_ID is not NULL) BEGIN 
+    UPDATE MD_DocumentControl 
+    SET   MD_ControlTypeID=15, Label='', ParentDocumentControlID=NULL, UserUpdate=1, DateUpdate=GETDATE(), MD_DocumentControlSourceID=NULL, DataFormat=NULL, Formula=NULL, Active=1,MD_DocumentControlContextID=NULL, LabelShowIfEmpty='False', Display=0, PrintDirection=0, GroupName='', PrintDelimiter=' ', DontSendToCezih='False', LabelControlName=NULL,LabelBold= 'False' ,DataBold= 'False' ,DoctorPermissionCode= NULL,MD_DocumentControlDataType= NULL,RoleID= NULL,ShortTooltip= NULL,PrintShortTooltip ='False' ,Consumption ='False' ,VisitDiagnosis ='False' ,[Print] =0  WHERE ID=@MD_DocumentControl_ID 
+END ELSE BEGIN 
+    INSERT INTO [dbo].[MD_DocumentControl] ([MD_ControlTypeID], [Name], [Label],  [ParentDocumentControlID], [UserUpdate], [DateUpdate], [MD_DocumentControlSourceID], [DataFormat], [Formula], [Active], [MD_DocumentControlContextID], [LabelShowIfEmpty],[LabelShowInNewRow], [Display],[PrintDirection],[GroupName],[PrintDelimiter],[DontSendToCezih],[LabelControlName], [LabelBold], [DataBold], RoleID, PrintShortTooltip, Consumption, [Print], VisitDiagnosis) SELECT 15,'mdRtfPart0','',NULL, 1,GETDATE(),NULL,NULL,NULL,'True',NULL,'False','False',0,0,'',' ','False', NULL, 'False' , 'False' , NULL, 'False' , 'False' , 0 , 'False' 
+    SELECT @MD_DocumentControl_ID = SCOPE_IDENTITY() 
+    INSERT INTO MD_DocumentDocumentControl (MD_DocumentID, MD_DocumentControlID) VALUES ( @MD_Document_ID,	@MD_DocumentControl_ID) 
+  
+END 
+SET @MD_DocumentControl_ID=NULL
+--report  
+SET @RTF='{\rtf1\deff0{\fonttbl{\f0 Calibri;}}{\colortbl ;\red0\green0\blue255 ;\red254\green180\blue200 ;\red57\green107\blue167 ;\red255\green255\blue255 ;}{\*\defchp \fs22}{\stylesheet {\ql\fs22 Normal;}{\*\cs1\fs22 Default Paragraph Font;}{\*\cs2\sbasedon1\fs22 Line Number;}{\*\cs3\ul\fs22\cf1 Hyperlink;}{\*\ts4\tsrowd\fs22\ql\tscellpaddfl3\tscellpaddl108\tscellpaddfb3\tscellpaddfr3\tscellpaddr108\tscellpaddft3\tsvertalt\cltxlrtb Normal Table;}{\*\ts5\tsrowd\sbasedon4\fs22\ql\trbrdrt\brdrs\brdrw10\trbrdrl\brdrs\brdrw10\trbrdrb\brdrs\brdrw10\trbrdrr\brdrs\brdrw10\trbrdrh\brdrs\brdrw10\trbrdrv\brdrs\brdrw10\tscellpaddfl3\tscellpaddl108\tscellpaddfr3\tscellpaddr108\tsvertalt\cltxlrtb Table Simple 1;}}{\*\listoverridetable}{\info{\creatim\yr2019\mo8\dy28\hr14\min26}{\version1}}\nouicompat\splytwnine\htmautsp\sectd\marglsxn720\margrsxn720\margtsxn720\margbsxn720\pgwsxn11907\pghsxn16839\psz9{\headerr\pard\plain\ql\fs22\par}{\footerr\pard\plain\ql{\field{\*\fldinst{\lang1050\langfe1050\fs14\cf0 MERGEFIELD Hospital_Place\\ShareField}}{\fldrslt{\lang1050\langfe1050\fs14\cf0\chshdng0\chcbpat2 PRIGORJE BRDOVE\u268\''c8KO}}}{\lang1050\langfe1050\fs14\cf0\chshdng0\chcbpat2 , }{\field{\*\fldinst{\lang1050\langfe1050\fs14\cf0 MERGEFIELD Document_DateTimeNow\\ShareField}}{\fldrslt{\lang1050\langfe1050\fs14\cf0\chshdng0\chcbpat2 01.01.2016 10:00}}}{\lang1050\langfe1050\fs14\cf0 .\tab \tab \tab \tab \tab \tab \tab \tab \tab \tab Stranica }{\field{\*\fldinst{\lang1050\langfe1050\fs14\cf0  PAGE }}{\fldrslt{\lang1050\langfe1050\fs14\cf0 #}}}{\lang1050\langfe1050\fs14\cf0  od }{\field{\*\fldinst{\lang1050\langfe1050\fs14\cf0  NUMPAGES }}{\fldrslt{\lang1050\langfe1050\fs14\cf0 #}}}\fs16\par}\pard\plain\ql\intbl\itap2\tx9612\yts5{\field{\*\fldinst{\fs24\cf3 INCLUDEPICTURE "dbimg://}{\field{\*\fldinst{\fs24\cf3 MERGEFIELD Logo}}{\fldrslt{\fs24\cf3 5}}}{\fs24\cf3 " \\d}}{\fldrslt}}\fs24\cf3\nestcell{\nonesttables\par}\pard\plain\ql\intbl\itap2\yts5{\field{\*\fldinst{\lang1050\langfe1050\b\fs22\cf3 MERGEFIELD Worksite_Djelatnost\\ShareField}}{\fldrslt{\lang1050\langfe1050\b\fs22\cf3\chshdng0\chcbpat2 Djelatnost}}}{\lang1050\langfe1050\b\fs22\cf3  }\lang1050\langfe1050\b\fs22\cf3\par\pard\plain\ql\intbl\itap2\yts5{\lang1050\langfe1050\fs22\cf3 Predstojnik Klinike: }{\field{\*\fldinst{\lang1050\langfe1050\fs22\cf3 MERGEFIELD Worksite_MainDoctor\\ShareField}}{\fldrslt{\lang1050\langfe1050\fs22\cf3\chshdng0\chcbpat2 GlavniDjelatnik}}}{\lang1050\langfe1050\fs22\cf3  }\lang1050\langfe1050\fs22\cf3\par\pard\plain\ql\intbl\itap2\yts5{\field{\*\fldinst{\lang1050\langfe1050\b\fs22\cf3 MERGEFIELD Worksite_Department\\ShareField}}{\fldrslt{\lang1050\langfe1050\b\fs22\cf3\chshdng0\chcbpat2 Odjel}}}{\lang1050\langfe1050\b\fs22\cf3  }\lang1050\langfe1050\b\fs22\cf3\par\pard\plain\ql\intbl\itap2\yts5{\field{\*\fldinst{\lang1050\langfe1050\fs22\cf3 MERGEFIELD Worksite_7\\ShareField}}{\fldrslt{\lang1050\langfe1050\fs22\cf3\chshdng0\chcbpat2 Radili\u353\''9ate}}}{\lang1050\langfe1050\fs22\cf3\chshdng0\chcbpat4  }\lang1050\langfe1050\fs22\cf3\par\pard\plain\ql\intbl\itap2\yts5{\field{\*\fldinst{\lang1050\langfe1050\fs22\cf3 MERGEFIELD Worksite_OTR\\ShareField}}{\fldrslt{\lang1050\langfe1050\fs22\cf3\chshdng0\chcbpat2 NazivGrupaRadilista}}}{\lang1050\langfe1050\fs22\cf3  }\lang1050\langfe1050\fs22\cf3\par\pard\plain\ql\intbl\itap2\yts5\lang1050\langfe1050\fs22\cf3\par\pard\plain\ql\intbl\itap2\yts5{\lang1050\langfe1050\fs22\cf3 Adresa: }{\field{\*\fldinst{\lang1050\langfe1050\fs22\cf3 MERGEFIELD Worksite_LocationAddress\\ShareField}}{\fldrslt{\lang1050\langfe1050\fs22\cf3 LokacijaAdresa}}}{\lang1050\langfe1050\fs22\cf3 , }{\field{\*\fldinst{\lang1050\langfe1050\fs22\cf3 MERGEFIELD Worksite_LocationPlace\\ShareField}}{\fldrslt{\lang1050\langfe1050\fs22\cf3\chshdng0\chcbpat2 LokacijaMjesto}}}{\lang1050\langfe1050\fs22\cf3  }\lang1050\langfe1050\fs22\cf3\par\pard\plain\ql\intbl\itap2\yts5{\field{\*\fldinst{\lang1050\langfe1050\fs22\cf3 MERGEFIELD Worksite_6\\ShareField}}{\fldrslt{\lang1050\langfe1050\fs22\cf3\chshdng0\chcbpat2 Radili\u353\''9ate}}}{\lang1050\langfe1050\fs22\cf3\chshdng0\chcbpat4  }\lang1050\langfe1050\fs22\cf3\nestcell{\nonesttables\par}\pard\plain\qr\intbl\itap2\yts5\lang1050\langfe1050\fs20\cf3\nestcell{\nonesttables\par}{\*\nesttableprops\trowd\irow0\irowband-1\ts5\trgaph108\trbrdrt\brdrnone\trbrdrl\brdrnone\trbrdrb\brdrnone\trbrdrr\brdrnone\trbrdrh\brdrnone\trbrdrv\brdrnone\trleft-108\trftsWidth3\trwWidth10260\trpaddfl3\trpaddl108\trpaddfr3\trpaddr108\tbllkhdrcols\tbllkhdrrows\tbllknocolband\tblindtype3\tblind0\clvmgf\clvertalt\clbrdrt\brdrnone\clbrdrl\brdrnone\clbrdrb\brdrtnthlg\brdrw10\brdrcf3\clbrdrr\brdrnone\cltxlrtb\clftsWidth3\clwWidth2830\clpadfr3\clpadr108\clpadft3\clpadt108\cellx2722\clvmgf\clvertalt\clbrdrt\brdrnone\clbrdrl\brdrnone\clbrdrb\brdrtnthlg\brdrw10\brdrcf3\clbrdrr\brdrnone\cltxlrtb\clftsWidth3\clwWidth7070\clpadfr3\clpadr108\clpadft3\clpadt108\cellx9792\clvertalt\clbrdrt\brdrnone\clbrdrl\brdrnone\clbrdrb\brdrnone\clbrdrr\brdrnone\cltxlrtb\clftsWidth3\clwWidth360\clpadfr3\clpadr108\clpadft3\clpadt108\cellx10152\nestrow}\pard\plain\qc\intbl\itap2\yts5\lang1050\langfe1050\fs24\cf3\nestcell{\nonesttables\par}\pard\plain\ql\intbl\itap2\yts5\lang1050\langfe1050\b\fs24\cf3\nestcell{\nonesttables\par}\pard\plain\qr\intbl\itap2\yts5\lang1050\langfe1050\fs20\cf3\nestcell{\nonesttables\par}{\*\nesttableprops\trowd\irow1\irowband0\ts5\trgaph108\trbrdrt\brdrnone\trbrdrl\brdrnone\trbrdrb\brdrnone\trbrdrr\brdrnone\trbrdrh\brdrnone\trbrdrv\brdrnone\trleft-108\trftsWidth3\trwWidth10260\trpaddfl3\trpaddl108\trpaddfr3\trpaddr108\tbllkhdrcols\tbllkhdrrows\tbllknocolband\tblindtype3\tblind0\clvmrg\clvertalt\clbrdrt\brdrnone\clbrdrl\brdrnone\clbrdrb\brdrtnthlg\brdrw10\brdrcf3\clbrdrr\brdrnone\cltxlrtb\clftsWidth3\clwWidth2830\clpadfr3\clpadr108\clpadft3\clpadt108\cellx2722\clvmrg\clvertalt\clbrdrt\brdrnone\clbrdrl\brdrnone\clbrdrb\brdrtnthlg\brdrw10\brdrcf3\clbrdrr\brdrnone\cltxlrtb\clftsWidth3\clwWidth7070\clpadfr3\clpadr108\clpadft3\clpadt108\cellx9792\clvertalt\clbrdrt\brdrnone\clbrdrl\brdrnone\clbrdrb\brdrnone\clbrdrr\brdrnone\cltxlrtb\clftsWidth3\clwWidth360\clpadfr3\clpadr108\clpadft3\clpadt108\cellx10152\nestrow}\pard\plain\qc\intbl\itap2\yts5\lang1050\langfe1050\fs24\cf3\nestcell{\nonesttables\par}\pard\plain\ql\intbl\itap2\yts5\lang1050\langfe1050\b\fs24\cf3\nestcell{\nonesttables\par}\pard\plain\qr\intbl\itap2\yts5\lang1050\langfe1050\fs20\cf3\nestcell{\nonesttables\par}{\*\nesttableprops\trowd\irow2\irowband1\ts5\trgaph108\trbrdrt\brdrnone\trbrdrl\brdrnone\trbrdrb\brdrnone\trbrdrr\brdrnone\trbrdrh\brdrnone\trbrdrv\brdrnone\trleft-108\trftsWidth3\trwWidth10260\trpaddfl3\trpaddl108\trpaddfr3\trpaddr108\tbllkhdrcols\tbllkhdrrows\tbllknocolband\tblindtype3\tblind0\clvmrg\clvertalt\clbrdrt\brdrnone\clbrdrl\brdrnone\clbrdrb\brdrtnthlg\brdrw10\brdrcf3\clbrdrr\brdrnone\cltxlrtb\clftsWidth3\clwWidth2830\clpadfr3\clpadr108\clpadft3\clpadt108\cellx2722\clvmrg\clvertalt\clbrdrt\brdrnone\clbrdrl\brdrnone\clbrdrb\brdrtnthlg\brdrw10\brdrcf3\clbrdrr\brdrnone\cltxlrtb\clftsWidth3\clwWidth7070\clpadfr3\clpadr108\clpadft3\clpadt108\cellx9792\clvertalt\clbrdrt\brdrnone\clbrdrl\brdrnone\clbrdrb\brdrnone\clbrdrr\brdrnone\cltxlrtb\clftsWidth3\clwWidth360\clpadfr3\clpadr108\clpadft3\clpadt108\cellx10152\nestrow}\pard\plain\qc\intbl\itap2\yts5\lang1050\langfe1050\fs24\cf3\nestcell{\nonesttables\par}\pard\plain\ql\intbl\itap2\yts5\lang1050\langfe1050\b\fs24\cf3\nestcell{\nonesttables\par}\pard\plain\qr\intbl\itap2\yts5\lang1050\langfe1050\fs20\cf3\nestcell{\nonesttables\par}{\*\nesttableprops\trowd\irow3\irowband2\ts5\trgaph108\trbrdrt\brdrnone\trbrdrl\brdrnone\trbrdrb\brdrnone\trbrdrr\brdrnone\trbrdrh\brdrnone\trbrdrv\brdrnone\trleft-108\trftsWidth3\trwWidth10260\trpaddfl3\trpaddl108\trpaddfr3\trpaddr108\tbllkhdrcols\tbllkhdrrows\tbllknocolband\tblindtype3\tblind0\clvmrg\clvertalt\clbrdrt\brdrnone\clbrdrl\brdrnone\clbrdrb\brdrtnthlg\brdrw10\brdrcf3\clbrdrr\brdrnone\cltxlrtb\clftsWidth3\clwWidth2830\clpadfr3\clpadr108\clpadft3\clpadt108\cellx2722\clvmrg\clvertalt\clbrdrt\brdrnone\clbrdrl\brdrnone\clbrdrb\brdrtnthlg\brdrw10\brdrcf3\clbrdrr\brdrnone\cltxlrtb\clftsWidth3\clwWidth7070\clpadfr3\clpadr108\clpadft3\clpadt108\cellx9792\clvertalt\clbrdrt\brdrnone\clbrdrl\brdrnone\clbrdrb\brdrnone\clbrdrr\brdrnone\cltxlrtb\clftsWidth3\clwWidth360\clpadfr3\clpadr108\clpadft3\clpadt108\cellx10152\nestrow}\pard\plain\qc\intbl\itap2\yts5\lang1050\langfe1050\fs24\cf3\nestcell{\nonesttables\par}\pard\plain\ql\intbl\itap2\yts5\lang1050\langfe1050\b\fs24\cf3\nestcell{\nonesttables\par}\pard\plain\qr\intbl\itap2\yts5\lang1050\langfe1050\fs20\cf3\nestcell{\nonesttables\par}{\*\nesttableprops\trowd\irow4\irowband3\ts5\trgaph108\trbrdrt\brdrnone\trbrdrl\brdrnone\trbrdrb\brdrnone\trbrdrr\brdrnone\trbrdrh\brdrnone\trbrdrv\brdrnone\trleft-108\trftsWidth3\trwWidth10260\trpaddfl3\trpaddl108\trpaddfr3\trpaddr108\tbllkhdrcols\tbllkhdrrows\tbllknocolband\tblindtype3\tblind0\clvmrg\clvertalt\clbrdrt\brdrnone\clbrdrl\brdrnone\clbrdrb\brdrtnthlg\brdrw10\brdrcf3\clbrdrr\brdrnone\cltxlrtb\clftsWidth3\clwWidth2830\clpadfr3\clpadr108\clpadft3\clpadt108\cellx2722\clvmrg\clvertalt\clbrdrt\brdrnone\clbrdrl\brdrnone\clbrdrb\brdrtnthlg\brdrw10\brdrcf3\clbrdrr\brdrnone\cltxlrtb\clftsWidth3\clwWidth7070\clpadfr3\clpadr108\clpadft3\clpadt108\cellx9792\clvertalt\clbrdrt\brdrnone\clbrdrl\brdrnone\clbrdrb\brdrnone\clbrdrr\brdrnone\cltxlrtb\clftsWidth3\clwWidth360\clpadfr3\clpadr108\clpadft3\clpadt108\cellx10152\nestrow}\pard\plain\qc\intbl\itap2\yts5\lang1050\langfe1050\fs24\cf3\nestcell{\nonesttables\par}\pard\plain\ql\intbl\itap2\yts5\lang1050\langfe1050\b\fs24\cf3\nestcell{\nonesttables\par}\pard\plain\qr\intbl\itap2\yts5\lang1050\langfe1050\fs20\cf3\nestcell{\nonesttables\par}{\*\nesttableprops\trowd\irow5\irowband4\lastrow\ts5\trgaph108\trbrdrt\brdrnone\trbrdrl\brdrnone\trbrdrb\brdrnone\trbrdrr\brdrnone\trbrdrh\brdrnone\trbrdrv\brdrnone\trleft-108\trftsWidth3\trwWidth10260\trpaddfl3\trpaddl108\trpaddfr3\trpaddr108\tbllkhdrcols\tbllkhdrrows\tbllknocolband\tblindtype3\tblind0\clvmrg\clvertalt\clbrdrt\brdrnone\clbrdrl\brdrnone\clbrdrb\brdrtnthlg\brdrw10\brdrcf3\clbrdrr\brdrnone\cltxlrtb\clftsWidth3\clwWidth2830\clpadfr3\clpadr108\clpadft3\clpadt108\cellx2722\clvmrg\clvertalt\clbrdrt\brdrnone\clbrdrl\brdrnone\clbrdrb\brdrtnthlg\brdrw10\brdrcf3\clbrdrr\brdrnone\cltxlrtb\clftsWidth3\clwWidth7070\clpadfr3\clpadr108\clpadft3\clpadt108\cellx9792\clvertalt\clbrdrt\brdrnone\clbrdrl\brdrnone\clbrdrb\brdrnone\clbrdrr\brdrnone\cltxlrtb\clftsWidth3\clwWidth360\clpadfr3\clpadr108\clpadft3\clpadt108\cellx10152\nestrow}\trowd\irow0\irowband-1\lastrow\ts5\trgaph108\trbrdrt\brdrnone\trbrdrl\brdrnone\trbrdrb\brdrnone\trbrdrr\brdrnone\trbrdrh\brdrnone\trbrdrv\brdrnone\trleft-108\trftsWidth1\trpaddfl3\trpaddl108\trpaddfr3\trpaddr108\tbllkhdrcols\tbllkhdrrows\tbllknocolband\tblindtype3\tblind0\clvertalt\clbrdrt\brdrnone\clbrdrl\brdrnone\clbrdrb\brdrnone\clbrdrr\brdrnone\cltxlrtb\clftsWidth3\clwWidth9652\clpadfr3\clpadr108\clpadft3\clpadt108\cellx9544\clvertalt\clbrdrt\brdrnone\clbrdrl\brdrnone\clbrdrb\brdrnone\clbrdrr\brdrnone\cltxlrtb\clftsWidth3\clwWidth255\clpadfr3\clpadr108\clpadft3\clpadt108\cellx9799\pard\plain\ql\intbl\yts5\lang1050\langfe1050\b\fs28\cf3\cell\pard\plain\ql\intbl\yts5\lang1050\langfe1050\b\fs18\cf3\cell\trowd\irow0\irowband-1\lastrow\ts5\trgaph108\trbrdrt\brdrnone\trbrdrl\brdrnone\trbrdrb\brdrnone\trbrdrr\brdrnone\trbrdrh\brdrnone\trbrdrv\brdrnone\trleft-108\trftsWidth1\trpaddfl3\trpaddl108\trpaddfr3\trpaddr108\tbllkhdrcols\tbllkhdrrows\tbllknocolband\tblindtype3\tblind0\clvertalt\clbrdrt\brdrnone\clbrdrl\brdrnone\clbrdrb\brdrnone\clbrdrr\brdrnone\cltxlrtb\clftsWidth3\clwWidth9652\clpadfr3\clpadr108\clpadft3\clpadt108\cellx9544\clvertalt\clbrdrt\brdrnone\clbrdrl\brdrnone\clbrdrb\brdrnone\clbrdrr\brdrnone\cltxlrtb\clftsWidth3\clwWidth255\clpadfr3\clpadr108\clpadft3\clpadt108\cellx9799\row\pard\plain\qc\lang1050\langfe1050\b\fs12\cf3\par\pard\plain\qc{\lang1050\langfe1050\b\fs28\cf3 Povijest bolesti dnevne bolnice}\lang1050\langfe1050\b\fs28\par\pard\plain\qc{\lang1050\langfe1050\fs20\cf0 Broj protokola: }{\field{\*\fldinst{\lang1050\langfe1050\fs20\cf0 MERGEFIELD AdmissionNumber\\ShareField}}{\fldrslt{\lang1050\langfe1050\fs20\cf0 12345678901}}}{\lang1050\langfe1050\fs20\cf0  }\lang1050\langfe1050\b\fs28\par\pard\plain\qc\lang1050\langfe1050\b\fs22\par\trowd\irow0\irowband-1\ts5\trgaph108\trbrdrt\brdrnone\trbrdrl\brdrnone\trbrdrb\brdrnone\trbrdrr\brdrnone\trbrdrh\brdrnone\trbrdrv\brdrnone\trleft-108\trftsWidth1\trpaddfl3\trpaddl108\trpaddfr3\trpaddr108\tbllkhdrcols\tbllkhdrrows\tbllknocolband\tblindtype3\tblind0\clvertalt\clbrdrt\brdrnone\clbrdrl\brdrnone\clbrdrb\brdrnone\clbrdrr\brdrnone\cltxlrtb\clftsWidth3\clwWidth6566\clpadfr3\clpadr108\clpadft3\clpadt108\cellx6458\clvertalt\clbrdrt\brdrnone\clbrdrl\brdrnone\clbrdrb\brdrnone\clbrdrr\brdrnone\cltxlrtb\clftsWidth3\clwWidth3341\clpadfr3\clpadr108\clpadft3\clpadt108\cellx9799\pard\plain\ql\intbl\yts5{\*\bkmkstart Preview}{\lang1050\langfe1050\b\fs22\cf0 Prezime i ime:}{\lang1050\langfe1050\fs22\cf0  }{\field{\*\fldinst{\lang1050\langfe1050\b\fs24\cf0 MERGEFIELD Patient_Surname\\ShareField}}{\fldrslt{\lang1050\langfe1050\b\fs24\cf0 Horvat}}}{\lang1050\langfe1050\b\fs24\cf0  }{\field{\*\fldinst{\lang1050\langfe1050\b\fs24\cf0 MERGEFIELD Patient_Name\\ShareField}}{\fldrslt{\lang1050\langfe1050\b\fs24\cf0 Hrvoje}}}{\lang1050\langfe1050\fs22\cf0  }\lang1050\langfe1050\fs22\cell\pard\plain\ql\intbl\yts5{\lang1050\langfe1050\b\fs20\cf0 MBOO:}{\lang1050\langfe1050\fs20\cf0  }{\field{\*\fldinst{\lang1050\langfe1050\fs20\cf0 MERGEFIELD Patient_MBO\\ShareField}}{\fldrslt{\lang1050\langfe1050\fs20\cf0 123456789}}}{\lang1050\langfe1050\fs20\cf0  }\lang1050\langfe1050\fs20\cell\trowd\irow0\irowband-1\ts5\trgaph108\trbrdrt\brdrnone\trbrdrl\brdrnone\trbrdrb\brdrnone\trbrdrr\brdrnone\trbrdrh\brdrnone\trbrdrv\brdrnone\trleft-108\trftsWidth1\trpaddfl3\trpaddl108\trpaddfr3\trpaddr108\tbllkhdrcols\tbllkhdrrows\tbllknocolband\tblindtype3\tblind0\clvertalt\clbrdrt\brdrnone\clbrdrl\brdrnone\clbrdrb\brdrnone\clbrdrr\brdrnone\cltxlrtb\clftsWidth3\clwWidth6566\clpadfr3\clpadr108\clpadft3\clpadt108\cellx6458\clvertalt\clbrdrt\brdrnone\clbrdrl\brdrnone\clbrdrb\brdrnone\clbrdrr\brdrnone\cltxlrtb\clftsWidth3\clwWidth3341\clpadfr3\clpadr108\clpadft3\clpadt108\cellx9799\row\trowd\irow1\irowband0\lastrow\ts5\trgaph108\trbrdrt\brdrnone\trbrdrl\brdrnone\trbrdrb\brdrnone\trbrdrr\brdrnone\trbrdrh\brdrnone\trbrdrv\brdrnone\trleft-108\trftsWidth1\trpaddfl3\trpaddl108\trpaddfr3\trpaddr108\tbllkhdrcols\tbllkhdrrows\tbllknocolband\tblindtype3\tblind0\clvertalt\clbrdrt\brdrnone\clbrdrl\brdrnone\clbrdrb\brdrs\brdrw10\clbrdrr\brdrnone\cltxlrtb\clftsWidth3\clwWidth6566\clpadfr3\clpadr108\clpadft3\clpadt108\cellx6458\clvertalt\clbrdrt\brdrnone\clbrdrl\brdrnone\clbrdrb\brdrs\brdrw10\clbrdrr\brdrnone\cltxlrtb\clftsWidth3\clwWidth3341\clpadfr3\clpadr108\clpadft3\clpadt108\cellx9799\pard\plain\ql\intbl\yts5{\lang1050\langfe1050\b\fs22\cf0 Adresa:}{\lang1050\langfe1050\fs22\cf0  }{\field{\*\fldinst{\lang1050\langfe1050\fs22\cf0 MERGEFIELD Patient_Address\\ShareField}}{\fldrslt{\lang1050\langfe1050\fs22\cf0 Ulica 99}}}{\lang1050\langfe1050\fs22\cf0 , }{\field{\*\fldinst{\lang1050\langfe1050\fs22\cf0 MERGEFIELD Patient_Place\\ShareField}}{\fldrslt{\lang1050\langfe1050\fs22\cf0\chshdng0\chcbpat2 Mjesto}}}{\lang1050\langfe1050\fs22\cf0  }\lang1050\langfe1050\fs22\cell\pard\plain\ql\intbl\yts5{\lang1050\langfe1050\b\fs22\cf0 Datum ro\u273\''f0enja:}{\lang1050\langfe1050\fs22\cf0  }{\field{\*\fldinst{\lang1050\langfe1050\fs22\cf0 MERGEFIELD Patient_DateOfBirth\\ShareField}}{\fldrslt{\lang1050\langfe1050\fs22\cf0\chshdng0\chcbpat2 23.05.2010}}}{\lang1050\langfe1050\fs22\cf0 .}\lang1050\langfe1050\fs22\cell\trowd\irow1\irowband0\lastrow\ts5\trgaph108\trbrdrt\brdrnone\trbrdrl\brdrnone\trbrdrb\brdrnone\trbrdrr\brdrnone\trbrdrh\brdrnone\trbrdrv\brdrnone\trleft-108\trftsWidth1\trpaddfl3\trpaddl108\trpaddfr3\trpaddr108\tbllkhdrcols\tbllkhdrrows\tbllknocolband\tblindtype3\tblind0\clvertalt\clbrdrt\brdrnone\clbrdrl\brdrnone\clbrdrb\brdrs\brdrw10\clbrdrr\brdrnone\cltxlrtb\clftsWidth3\clwWidth6566\clpadfr3\clpadr108\clpadft3\clpadt108\cellx6458\clvertalt\clbrdrt\brdrnone\clbrdrl\brdrnone\clbrdrb\brdrs\brdrw10\clbrdrr\brdrnone\cltxlrtb\clftsWidth3\clwWidth3341\clpadfr3\clpadr108\clpadft3\clpadt108\cellx9799\row\pard\plain\ql\lang1050\langfe1050\b\fs12\par\pard\plain\ql{\*\bkmkstart Import}{\*\bkmkstart Tijek doga\u273\''f0aja}{\lang1050\langfe1050\b\fs22\cf0 Dijagnoze}\lang1050\langfe1050\b\fs22\par\pard\plain\ql{\field{\*\fldinst{\lang1050\langfe1050\b\fs22\cf0 MERGEFIELD VezaneDijagnoze\\ShareField}}{\fldrslt{\lang1050\langfe1050\b\fs22\cf0 A00 Dijagnoza 1}\lang1050\langfe1050\b\fs22\par\pard\plain\ql{\lang1050\langfe1050\b\fs22\cf0 A01 Dijagnoza 2}}}{\lang1050\langfe1050\b\fs22\cf0  \line }{\field{\*\fldinst{\lang1050\langfe1050\fs22\cf0 MERGEFIELD mdTextBox0_1}}{\fldrslt{\lang1050\langfe1050\fs22\cf0 mdTextBox0_1}}}{\lang1050\langfe1050\b\fs22\cf0   }\lang1050\langfe1050\b\fs22\par\pard\plain\ql\lang1050\langfe1050\b\fs12\par\pard\plain\ql{\lang1050\langfe1050\b\fs22\cf0 Nalaz}\lang1050\langfe1050\b\fs22\par\pard\plain\qj{\field{\*\fldinst{\lang1050\langfe1050\fs22\cf0 MERGEFIELD mdRtfPart0}}{\fldrslt{\lang1050\langfe1050\fs22\cf0 mdRtfPart0}}}{\lang1050\langfe1050\fs22\cf0  }\lang1050\langfe1050\b\fs22\par\pard\plain\ql{\*\bkmkend Import}{\*\bkmkend Tijek doga\u273\''f0aja}\lang1050\langfe1050\fs10\par\trowd\irow0\irowband-1\lastrow\ts5\trgaph108\trbrdrt\brdrnone\trbrdrl\brdrnone\trbrdrb\brdrnone\trbrdrr\brdrnone\trbrdrh\brdrnone\trbrdrv\brdrnone\trleft-108\trftsWidth3\trwWidth10041\trpaddfl3\trpaddl108\trpaddfr3\trpaddr108\tbllkhdrcols\tbllkhdrrows\tbllknocolband\tblindtype3\tblind0\clvertalt\clbrdrt\brdrnone\clbrdrl\brdrnone\clbrdrb\brdrnone\clbrdrr\brdrnone\cltxlrtb\clftsWidth3\clwWidth10036\clpadfr3\clpadr108\clpadft3\clpadt108\cellx9933\pard\plain\ql\intbl\yts5{\lang1050\langfe1050\fs22\cf0 Datum: }{\field{\*\fldinst{\lang1050\langfe1050\fs22\cf0 MERGEFIELD mdDate0}}{\fldrslt{\lang1050\langfe1050\fs22\cf0 mdDate0}}}{\lang1050\langfe1050\fs22\cf0 .}\lang1050\langfe1050\fs22\par\pard\plain\ql\intbl\yts5\lang1050\langfe1050\fs22\par\pard\plain\qc\intbl\itap2\yts5{\field{\*\fldinst{\lang1050\langfe1050\fs20\cf0 IF "}{\field{\*\fldinst{\lang1050\langfe1050\fs20\cf0 MERGEFIELD @mdFormula0}}{\fldrslt}}{\lang1050\langfe1050\fs20\cf0 " = "" " " "Lije\u269\''e8nik - mla\u273\''f0a slu\u382\''9eba:}\lang1050\langfe1050\fs20\par\pard\plain\qc\intbl\itap2\yts5{\field{\*\fldinst{\lang1050\langfe1050\fs20\cf0 MERGEFIELD mdLookup2_Prefix}}{\fldrslt{\lang1050\langfe1050\fs20\cf0 mdLookup2_Prefix}}}{\lang1050\langfe1050\fs20\cf0  }{\field{\*\fldinst{\lang1050\langfe1050\b\fs20\cf0 MERGEFIELD mdLookup2_Ime}}{\fldrslt{\lang1050\langfe1050\b\fs20\cf0 mdLookup2_Ime}}}{\lang1050\langfe1050\b\fs20\cf0  }{\field{\*\fldinst{\lang1050\langfe1050\b\fs20\cf0 MERGEFIELD mdLookup2_Prezime}}{\fldrslt{\lang1050\langfe1050\b\fs20\cf0 mdLookup2_Prezime}}}{\lang1050\langfe1050\fs20\cf0  }{\field{\*\fldinst{\lang1050\langfe1050\fs20\cf0 MERGEFIELD mdLookup2_Sufix}}{\fldrslt{\lang1050\langfe1050\fs20\cf0 mdLookup2_Sufix}}}{\lang1050\langfe1050\fs20\cf0 "}}{\fldrslt{\lang1050\langfe1050\fs20\cf0  }}}\lang1050\langfe1050\fs20\par\pard\plain\qc\intbl\itap2\yts5{\field{\*\fldinst{\lang1050\langfe1050\fs20\cf0 MERGEFIELD mdLookup2_Sifra}}{\fldrslt{\lang1050\langfe1050\fs20\cf0 mdLookup2_Sifra}}}\lang1050\langfe1050\fs20\nestcell{\nonesttables\par}\pard\plain\qc\intbl\itap2\yts5{\field{\*\fldinst{\lang1050\langfe1050\fs20\cf0 IF "}{\field{\*\fldinst{\lang1050\langfe1050\fs20\cf0 MERGEFIELD @mdFormula1}}{\fldrslt}}{\lang1050\langfe1050\fs20\cf0 " = "" " " "Lije\u269\''e8nik:"}}{\fldrslt{\lang1050\langfe1050\fs20\cf0  }}}\lang1050\langfe1050\fs20\par\pard\plain\qc\intbl\itap2\yts5{\field{\*\fldinst{\lang1050\langfe1050\fs20\cf0 MERGEFIELD mdLookup1_Prefix}}{\fldrslt{\lang1050\langfe1050\fs20\cf0 mdLookup1_Prefix}}}{\lang1050\langfe1050\fs20\cf0  }{\field{\*\fldinst{\lang1050\langfe1050\b\fs20\cf0 MERGEFIELD mdLookup1_Ime}}{\fldrslt{\lang1050\langfe1050\b\fs20\cf0 mdLookup1_Ime}}}{\lang1050\langfe1050\b\fs20\cf0  }{\field{\*\fldinst{\lang1050\langfe1050\b\fs20\cf0 MERGEFIELD mdLookup1_Prezime}}{\fldrslt{\lang1050\langfe1050\b\fs20\cf0 mdLookup1_Prezime}}}{\lang1050\langfe1050\fs20\cf0 , }{\field{\*\fldinst{\lang1050\langfe1050\fs20\cf0 MERGEFIELD mdLookup1_Sufix}}{\fldrslt{\lang1050\langfe1050\fs20\cf0 mdLookup1_Sufix}}}\lang1050\langfe1050\fs20\par\pard\plain\qc\intbl\itap2\yts5{\field{\*\fldinst{\lang1050\langfe1050\fs20\cf0 MERGEFIELD mdLookup1_Specijalnost}}{\fldrslt{\lang1050\langfe1050\fs20\cf0 mdLookup1_Specijalnost}}}{\lang1050\langfe1050\fs20\cf0  }\lang1050\langfe1050\fs20\par\pard\plain\qc\intbl\itap2\yts5{\field{\*\fldinst{\lang1050\langfe1050\fs20\cf0 MERGEFIELD mdLookup1_Subspecijalnost}}{\fldrslt{\lang1050\langfe1050\fs20\cf0 mdLookup1_Subspecijalnost}}}{\lang1050\langfe1050\fs20\cf0  }\lang1050\langfe1050\fs20\par\pard\plain\qc\intbl\itap2\yts5{\field{\*\fldinst{\lang1050\langfe1050\fs20\cf0 MERGEFIELD mdLookup1_Sifra}}{\fldrslt{\lang1050\langfe1050\fs20\cf0 mdLookup1_Sifra}}}\lang1050\langfe1050\fs20\nestcell{\nonesttables\par}{\*\nesttableprops\trowd\irow0\irowband-1\lastrow\ts5\trgaph108\trqr\trbrdrt\brdrnone\trbrdrl\brdrnone\trbrdrb\brdrnone\trbrdrr\brdrnone\trbrdrh\brdrnone\trbrdrv\brdrnone\trleft-108\trftsWidth1\trpaddfl3\trpaddl108\trpaddfr3\trpaddr108\tbllkhdrcols\tbllkhdrrows\tbllknocolband\tblindtype3\tblind0\clvertalt\clbrdrt\brdrnone\clbrdrl\brdrnone\clbrdrb\brdrnone\clbrdrr\brdrnone\cltxlrtb\clftsWidth3\clwWidth5103\clpadfr3\clpadr108\clpadft3\clpadt108\cellx4995\clvertalt\clbrdrt\brdrnone\clbrdrl\brdrnone\clbrdrb\brdrnone\clbrdrr\brdrnone\cltxlrtb\clftsWidth3\clwWidth5103\clpadfr3\clpadr108\clpadft3\clpadt108\cellx10098\nestrow}\trowd\irow0\irowband-1\lastrow\ts5\trgaph108\trbrdrt\brdrnone\trbrdrl\brdrnone\trbrdrb\brdrnone\trbrdrr\brdrnone\trbrdrh\brdrnone\trbrdrv\brdrnone\trleft-108\trftsWidth3\trwWidth10041\trpaddfl3\trpaddl108\trpaddfr3\trpaddr108\tbllkhdrcols\tbllkhdrrows\tbllknocolband\tblindtype3\tblind0\clvertalt\clbrdrt\brdrnone\clbrdrl\brdrnone\clbrdrb\brdrnone\clbrdrr\brdrnone\cltxlrtb\clftsWidth3\clwWidth10036\clpadfr3\clpadr108\clpadft3\clpadt108\cellx9933\pard\plain\ql\intbl\yts5{\*\bkmkend Preview}\lang1050\langfe1050\fs22\cell\trowd\irow0\irowband-1\lastrow\ts5\trgaph108\trbrdrt\brdrnone\trbrdrl\brdrnone\trbrdrb\brdrnone\trbrdrr\brdrnone\trbrdrh\brdrnone\trbrdrv\brdrnone\trleft-108\trftsWidth3\trwWidth10041\trpaddfl3\trpaddl108\trpaddfr3\trpaddr108\tbllkhdrcols\tbllkhdrrows\tbllknocolband\tblindtype3\tblind0\clvertalt\clbrdrt\brdrnone\clbrdrl\brdrnone\clbrdrb\brdrnone\clbrdrr\brdrnone\cltxlrtb\clftsWidth3\clwWidth10036\clpadfr3\clpadr108\clpadft3\clpadt108\cellx9933\row\pard\plain\ql\lang1050\langfe1050\b\fs4\par{\*\themedata 
+504b03041400020008000000210201159325ae000000270100000b0000005f72656c732f2e72656c738d8f310ec2300c45af1279a76e1910424dbbb07460415c204a9d34a24da224457036068ec415c8d82206164b5ffe7efffbfd7cd5ed7d1ad98d4234
+ce72a88a121859e97a63358739a9cd1edaa63ed3285276c4c1f8c8f2898d1c8694fc0131ca8126110be7c9e68d72611229cba0d10b79159a705b963b0c4b06ac99aceb3984aeaf805d1e9efe613ba58ca4a393f34436fd88f87264b2089a12879499848b
+791236b70c454e00864d8dab779b0f504b0304140002000800000021027f624aeb730000007b0000001c0000007468656d652f7468656d652f7468656d654d616e616765722e786d6c0d8cc10d83300c005789fc2f4e7954554460820e61810991888392
+b465b73e3a5257a89fa7d3ddeff31da633ede6c5a5c62c1eae9d05c332e7254af0f06cebe50ed338906b1b277e9050e062b491eac8c3d6dae110ebac966a970f16756b2e899a6209b8147aeb2bedd85b7bc34451c0e0f807504b03041400020008000000
+21020a5d705ea60000000c010000270000007468656d652f7468656d652f5f72656c732f7468656d654d616e616765722e786d6c2e72656c738dcf3d0ec2300c05e0ab44dea95b068450d32e2c5d11178852278d687e94a408cec6c091b8021113951818
+9fecf7597e3d9e6d7fb333bb524cc63b0e4d55032327fd689ce6b064b5d943dfb5279a452e1b693221b1527189c39473382026399115a9f2815c99281fadc825468d41c88bd084dbbade61fc36606db261e41087b10176be07fac7f64a1949472f174b2e
+ff3881b974a980226aca1c3eb1a90a030cbb16573f756f504b0304140002000800000021020b868735b9050000e71b0000160000007468656d652f7468656d652f7468656d65312e786d6ced594f6fdb3614ff2a84eead2cdb4a9da06e113b76bbb56983
+c4ebd0232dd3121b4a14483aa96f437b1c30605837ec3260b71d866d055a608775d887c9d661eb807c853dd1b245d9549ab429b661f1c116a9dfeffde57b22e5e39f7eb97afd61ccd0011192f2a4ed78976b0e2249c0473409dbce448d2fb59cebd7aee2
+0d1591982000277203b79d48a974c3756500d3585ee62949e0de988b182b188ad01d097c084262e6d66bb53537c63471508263d276ee8ec734206890897416c27b0cbe1225b3898089bd406b34191a3bdaf7b21f39955d26d001666d07f48cf8e1803c54
+0e62582ab8d1766afae320f7da5577c162aa826c10fbfa3327e68cd17e5d1345385c30bd7e73fdca56a1a13ed3b00aecf57add9e5748d4081c04e0adb7026ef65b5e6721d540cd2e57a5776b7eadb9443034345608eb9d4ec75f2f131a05a1b94268d5d6
+9a9bf532a15910fc551f3a9bddee5a99e01784b51542ffcafa5a7389a05111a3c9fe0a3ccb6c91a20566ccd94d2bbe05f8d6622d1430d75869330189aa5a77317ec0451f003acb58d104a9694ac638005c17c74341b1d6803708366ee573815c9dcbd421
+19089aaab6f37e8aa1400accf18bef8e5f3c43c72f9e1e3d7a7ef4e8c7a3c78f8f1efd6063dec44968325f7df3e95f5f7d84fe7cf6f5ab279f5710a449f8edfb8f7ffdf9b30aa432912fbf78fafbf3a72fbffce48f6f9fd8f09b020f4dfc80c644a23be4
+10edf238f3cfa2820cc519298308d312054700b5217b2a2a21ef4c31b3023ba41cc37b02da82157963f2a064ef5e24268ada90b7a2b884dce69c75b8b0fb744bab337c9a2461857e313181bb181f58d57797b2dc9ba4b0b2a95568372225537718241e87
+24210a65f7f83e2136de7d4a4bf1dda681e0928f15ba4f5107537b600674a8ecac9b3486044dad3642d64b11dabe873a9c59156c918332142a0433ab50c24ad1bc81270ac776ab71cc4ce86dac22aba17b531194022f15243d248ca3de88486925dd15d3
+92c9b730b428fb0ad866d3b80c158aee5ba1b731e726748bef77231ca776bb691299e0f7e43eac588c76b8b2dbc1cb35938d212138a9cefc3d4ad4198bfd031a46f6c592dd99086b8d105eaed1291b6392cc1f00a5561ed3e4a4bece2834f68bbebed4d7
+37e16167ada7e56e5e09fc8ff6f02d3c4976485627172dfca2855fb4f0132afc5d34eea257bbe66e5dcb892bb7ee63cad89e9a32725bea2e2fc1c5511f26f5409316478534824b67a6ae840b05d6d74870f52155d15e845350e3690da1cc458712a55cc2
+09c5a994ad0fbc149cd673be3ea5ea4848acb6f96836dda8cde75d438c1e85d254d4c8049c5659e3cadb29f366c0536af37cbb36ff446dae114da81f84b31711de5a3d3fcecb003332cae23e13304fcbb9a748467844f21c795647bcc629c3d67a7dd40c
+6deb8db7d3769a2499ea9a15eafc73c8526d254bee6a39b2a43c428760955ff71d14e0b4ed8c61530697710af264d6ae300b93b613a8dc95d716f3b2c3f665e9d52a1d2ea94885545b58463396be95935852d85ff79b591ccec7014b373a9d158d96f70f
+5ae12ea7968cc724501533c530bfc7278a88bd687488866c227631d8dd9cadae1195f0aca8cf07022ab4992fbc72e5e755b0fcea28af0eccd208e73da965e47e06d7d70b1bf4c830cfadb0fd0d5d699ca32bfeffd7956ce5c286b731d22733d806088cb2
+35da76b85011872e944634e80bd838685d601782b2c84c422c7bff9dd94a0e8abe3593316b7261a476698804854ea72241c88ecafd7c8d30af6e3e5fe782f23eb33057a6b3df2139206c9055ef5ae6bf83a27937c903a171cb49736dd5350cfbffe29d4f
+b362e773f2f6a050d43ccb5ea469347de351b0fe76269cf1515bb77b5cf74ffda84de1c082b22f68dc5404acd8df0ef82e641f2d76940816e2a5565e7e8bc921d8dc329ccb44bddb6d5491825645becf73f36904bb5111ec93d5bd79b07d4bacfd9343ed
+ae96a86b1c64f468e5af313e7c00bab7e08034614ae62fa61ec2f1b43bff270304e5e7254dbef637504b030414000200080000002102e9278183ee00000010020000130000005b436f6e74656e745f54797065735d2e786d6cad914d4ec3301085af6279
+5bc54e5920849274012cf959708191334e2ce21fd993aa9c8d0547e20a4cd382102a48486c2cd9efcdfb66c66f2fafcd66e727b1c55c5c0cad5cab5a0a0c26f62e0cad9cc9561772d3358fcf098b606b28ad1c89d2a5d6c58ce8a1a89830b06263f6407c
+cd834e609e60407d56d7e7dac44018a8a27d86ec9a6bb4304f246e76fc7cc0669c8a145707e39ed54a486972068875bd0dfd374a752428ae5c3c6574a9acd820853e8958a41f091f85f7bc89ec7a140f90e90e3cdb34f198f8f55cabdfc34eb41bad7506
+fb6866cf256a8959fd097a0b81e7cdff833e867d76a097ffedde01504b010214001400020008000000210201159325ae000000270100000b00000000000000000000000000000000005f72656c732f2e72656c73504b0102140014000200080000002102
+7f624aeb730000007b0000001c00000000000000000000000000d70000007468656d652f7468656d652f7468656d654d616e616765722e786d6c504b01021400140002000800000021020a5d705ea60000000c0100002700000000000000000000000000
+840100007468656d652f7468656d652f5f72656c732f7468656d654d616e616765722e786d6c2e72656c73504b01021400140002000800000021020b868735b9050000e71b000016000000000000000000000000006f0200007468656d652f7468656d65
+2f7468656d65312e786d6c504b0102140014000200080000002102e9278183ee0000001002000013000000000000000000000000005c0800005b436f6e74656e745f54797065735d2e786d6c504b050600000000050005005d0100007b0900000000}{\*\colorschememapping 
+3c3f786d6c2076657273696f6e3d22312e302220656e636f64696e673d227574662d38223f3e3c613a636c724d617020786d6c6e733a613d22687474703a2f2f736368656d61732e6f70656e786d6c666f726d6174732e6f72672f64726177696e676d6c
+2f323030362f6d61696e22206267313d226c743122207478313d22646b3122206267323d226c743222207478323d22646b322220616363656e74313d22616363656e74312220616363656e74323d22616363656e74322220616363656e74333d22616363
+656e74332220616363656e74343d22616363656e74342220616363656e74353d22616363656e74352220616363656e74363d22616363656e74362220686c696e6b3d22686c696e6b2220666f6c486c696e6b3d22666f6c486c696e6b22202f3e}}'
+DECLARE @ReportID int
+IF EXISTS(select 1 from MD_DocumentReport where MD_DocumentID=@MD_Document_ID AND DateTo is NULL and dbo.BigHashBytes('SHA1', ReportTemplate) <> dbo.BigHashBytes('SHA1', @RTF)) BEGIN 
+    UPDATE MD_DocumentReport set DateTo=GETDATE() where MD_DocumentID=@MD_Document_ID and DateTo is NULL 
+    INSERT INTO MD_DocumentReport (ReportTemplate, MD_DocumentID, DateFrom, DateTo) VALUES	(@RTF,	@MD_Document_ID,	GETDATE(),	NULL)
+    SET @ReportID = SCOPE_IDENTITY()
+END
+IF NOT EXISTS(select 1 from MD_DocumentReport where MD_DocumentID=@MD_Document_ID ) BEGIN 
+    INSERT INTO MD_DocumentReport (ReportTemplate, MD_DocumentID, DateFrom, DateTo) VALUES	(@RTF,	@MD_Document_ID,	GETDATE(),	NULL)
+    SET @ReportID = SCOPE_IDENTITY()
+END
+if(@ReportID IS NULL)
+   SELECT @ReportID=ID from MD_DocumentReport  where MD_DocumentID=@MD_Document_ID and DateTo is NULL
+
+IF NOT EXISTS(SELECT 1 from MD_DocumentReportShareControl where DocumentReportID=@ReportID and MergeField='Hospital_Place') BEGIN 
+    INSERT MD_DocumentReportShareControl(DocumentReportID, RefControlID, RefControlTypeID, ControlConnectionTypeID, ControlConnectionLevelID, MergeField, DisplayFormat)
+    SELECT @ReportID, (SELECT ID FROM MD_GlobalControl WHERE CODE='Hospital_Place'),1, 1,1,'Hospital_Place','#NAME#'
+END ELSE BEGIN
+    UPDATE MD_DocumentReportShareControl SET RefControlID=(SELECT ID FROM MD_GlobalControl WHERE CODE='Hospital_Place'),RefControlTypeID= 1,ControlConnectionTypeID=1,ControlConnectionLevelID=1,MergeField='Hospital_Place',DisplayFormat='#NAME#' 
+    WHERE DocumentReportID=@ReportID and MergeField='Hospital_Place' 
+END 
+
+IF NOT EXISTS(SELECT 1 from MD_DocumentReportShareControl where DocumentReportID=@ReportID and MergeField='Patient_DateOfBirth') BEGIN 
+    INSERT MD_DocumentReportShareControl(DocumentReportID, RefControlID, RefControlTypeID, ControlConnectionTypeID, ControlConnectionLevelID, MergeField, DisplayFormat)
+    SELECT @ReportID, (SELECT ID FROM MD_GlobalControl WHERE CODE='Patient_DateOfBirth'),1, 1,1,'Patient_DateOfBirth','dd.MM.YYYY'
+END ELSE BEGIN
+    UPDATE MD_DocumentReportShareControl SET RefControlID=(SELECT ID FROM MD_GlobalControl WHERE CODE='Patient_DateOfBirth'),RefControlTypeID= 1,ControlConnectionTypeID=1,ControlConnectionLevelID=1,MergeField='Patient_DateOfBirth',DisplayFormat='dd.MM.YYYY' 
+    WHERE DocumentReportID=@ReportID and MergeField='Patient_DateOfBirth' 
+END 
+
+IF NOT EXISTS(SELECT 1 from MD_DocumentReportShareControl where DocumentReportID=@ReportID and MergeField='Patient_Name') BEGIN 
+    INSERT MD_DocumentReportShareControl(DocumentReportID, RefControlID, RefControlTypeID, ControlConnectionTypeID, ControlConnectionLevelID, MergeField, DisplayFormat)
+    SELECT @ReportID, (SELECT ID FROM MD_GlobalControl WHERE CODE='Patient_Name'),1, 1,1,'Patient_Name',''
+END ELSE BEGIN
+    UPDATE MD_DocumentReportShareControl SET RefControlID=(SELECT ID FROM MD_GlobalControl WHERE CODE='Patient_Name'),RefControlTypeID= 1,ControlConnectionTypeID=1,ControlConnectionLevelID=1,MergeField='Patient_Name',DisplayFormat='' 
+    WHERE DocumentReportID=@ReportID and MergeField='Patient_Name' 
+END 
+
+IF NOT EXISTS(SELECT 1 from MD_DocumentReportShareControl where DocumentReportID=@ReportID and MergeField='Patient_Surname') BEGIN 
+    INSERT MD_DocumentReportShareControl(DocumentReportID, RefControlID, RefControlTypeID, ControlConnectionTypeID, ControlConnectionLevelID, MergeField, DisplayFormat)
+    SELECT @ReportID, (SELECT ID FROM MD_GlobalControl WHERE CODE='Patient_Surname'),1, 1,1,'Patient_Surname',''
+END ELSE BEGIN
+    UPDATE MD_DocumentReportShareControl SET RefControlID=(SELECT ID FROM MD_GlobalControl WHERE CODE='Patient_Surname'),RefControlTypeID= 1,ControlConnectionTypeID=1,ControlConnectionLevelID=1,MergeField='Patient_Surname',DisplayFormat='' 
+    WHERE DocumentReportID=@ReportID and MergeField='Patient_Surname' 
+END 
+
+IF NOT EXISTS(SELECT 1 from MD_DocumentReportShareControl where DocumentReportID=@ReportID and MergeField='Patient_Address') BEGIN 
+    INSERT MD_DocumentReportShareControl(DocumentReportID, RefControlID, RefControlTypeID, ControlConnectionTypeID, ControlConnectionLevelID, MergeField, DisplayFormat)
+    SELECT @ReportID, (SELECT ID FROM MD_GlobalControl WHERE CODE='Patient_Address'),1, 1,1,'Patient_Address',''
+END ELSE BEGIN
+    UPDATE MD_DocumentReportShareControl SET RefControlID=(SELECT ID FROM MD_GlobalControl WHERE CODE='Patient_Address'),RefControlTypeID= 1,ControlConnectionTypeID=1,ControlConnectionLevelID=1,MergeField='Patient_Address',DisplayFormat='' 
+    WHERE DocumentReportID=@ReportID and MergeField='Patient_Address' 
+END 
+
+IF NOT EXISTS(SELECT 1 from MD_DocumentReportShareControl where DocumentReportID=@ReportID and MergeField='Patient_MBO') BEGIN 
+    INSERT MD_DocumentReportShareControl(DocumentReportID, RefControlID, RefControlTypeID, ControlConnectionTypeID, ControlConnectionLevelID, MergeField, DisplayFormat)
+    SELECT @ReportID, (SELECT ID FROM MD_GlobalControl WHERE CODE='Patient_MBO'),1, 1,1,'Patient_MBO',''
+END ELSE BEGIN
+    UPDATE MD_DocumentReportShareControl SET RefControlID=(SELECT ID FROM MD_GlobalControl WHERE CODE='Patient_MBO'),RefControlTypeID= 1,ControlConnectionTypeID=1,ControlConnectionLevelID=1,MergeField='Patient_MBO',DisplayFormat='' 
+    WHERE DocumentReportID=@ReportID and MergeField='Patient_MBO' 
+END 
+
+IF NOT EXISTS(SELECT 1 from MD_DocumentReportShareControl where DocumentReportID=@ReportID and MergeField='Patient_Place') BEGIN 
+    INSERT MD_DocumentReportShareControl(DocumentReportID, RefControlID, RefControlTypeID, ControlConnectionTypeID, ControlConnectionLevelID, MergeField, DisplayFormat)
+    SELECT @ReportID, (SELECT ID FROM MD_GlobalControl WHERE CODE='Patient_Place'),1, 1,1,'Patient_Place','#CODE# #NAME#'
+END ELSE BEGIN
+    UPDATE MD_DocumentReportShareControl SET RefControlID=(SELECT ID FROM MD_GlobalControl WHERE CODE='Patient_Place'),RefControlTypeID= 1,ControlConnectionTypeID=1,ControlConnectionLevelID=1,MergeField='Patient_Place',DisplayFormat='#CODE# #NAME#' 
+    WHERE DocumentReportID=@ReportID and MergeField='Patient_Place' 
+END 
+
+IF NOT EXISTS(SELECT 1 from MD_DocumentReportShareControl where DocumentReportID=@ReportID and MergeField='AdmissionNumber') BEGIN 
+    INSERT MD_DocumentReportShareControl(DocumentReportID, RefControlID, RefControlTypeID, ControlConnectionTypeID, ControlConnectionLevelID, MergeField, DisplayFormat)
+    SELECT @ReportID, (SELECT ID FROM MD_GlobalControl WHERE CODE='AdmissionNumber'),1, 1,2,'AdmissionNumber',''
+END ELSE BEGIN
+    UPDATE MD_DocumentReportShareControl SET RefControlID=(SELECT ID FROM MD_GlobalControl WHERE CODE='AdmissionNumber'),RefControlTypeID= 1,ControlConnectionTypeID=1,ControlConnectionLevelID=2,MergeField='AdmissionNumber',DisplayFormat='' 
+    WHERE DocumentReportID=@ReportID and MergeField='AdmissionNumber' 
+END 
+
+IF NOT EXISTS(SELECT 1 from MD_DocumentReportShareControl where DocumentReportID=@ReportID and MergeField='Worksite_6') BEGIN 
+    INSERT MD_DocumentReportShareControl(DocumentReportID, RefControlID, RefControlTypeID, ControlConnectionTypeID, ControlConnectionLevelID, MergeField, DisplayFormat)
+    SELECT @ReportID, (SELECT ID FROM MD_GlobalControl WHERE CODE='Worksite'),1, 1,2,'Worksite_6','#DESC2#'
+END ELSE BEGIN
+    UPDATE MD_DocumentReportShareControl SET RefControlID=(SELECT ID FROM MD_GlobalControl WHERE CODE='Worksite'),RefControlTypeID= 1,ControlConnectionTypeID=1,ControlConnectionLevelID=2,MergeField='Worksite_6',DisplayFormat='#DESC2#' 
+    WHERE DocumentReportID=@ReportID and MergeField='Worksite_6' 
+END 
+
+IF NOT EXISTS(SELECT 1 from MD_DocumentReportShareControl where DocumentReportID=@ReportID and MergeField='Worksite_7') BEGIN 
+    INSERT MD_DocumentReportShareControl(DocumentReportID, RefControlID, RefControlTypeID, ControlConnectionTypeID, ControlConnectionLevelID, MergeField, DisplayFormat)
+    SELECT @ReportID, (SELECT ID FROM MD_GlobalControl WHERE CODE='Worksite'),1, 1,2,'Worksite_7','#DESC#'
+END ELSE BEGIN
+    UPDATE MD_DocumentReportShareControl SET RefControlID=(SELECT ID FROM MD_GlobalControl WHERE CODE='Worksite'),RefControlTypeID= 1,ControlConnectionTypeID=1,ControlConnectionLevelID=2,MergeField='Worksite_7',DisplayFormat='#DESC#' 
+    WHERE DocumentReportID=@ReportID and MergeField='Worksite_7' 
+END 
+
+IF NOT EXISTS(SELECT 1 from MD_DocumentReportShareControl where DocumentReportID=@ReportID and MergeField='Worksite_OTR') BEGIN 
+    INSERT MD_DocumentReportShareControl(DocumentReportID, RefControlID, RefControlTypeID, ControlConnectionTypeID, ControlConnectionLevelID, MergeField, DisplayFormat)
+    SELECT @ReportID, (SELECT ID FROM MD_GlobalControl WHERE CODE='Worksite_OTR'),1, 1,2,'Worksite_OTR','#LNAME#'
+END ELSE BEGIN
+    UPDATE MD_DocumentReportShareControl SET RefControlID=(SELECT ID FROM MD_GlobalControl WHERE CODE='Worksite_OTR'),RefControlTypeID= 1,ControlConnectionTypeID=1,ControlConnectionLevelID=2,MergeField='Worksite_OTR',DisplayFormat='#LNAME#' 
+    WHERE DocumentReportID=@ReportID and MergeField='Worksite_OTR' 
+END 
+
+IF NOT EXISTS(SELECT 1 from MD_DocumentReportShareControl where DocumentReportID=@ReportID and MergeField='Worksite_Department') BEGIN 
+    INSERT MD_DocumentReportShareControl(DocumentReportID, RefControlID, RefControlTypeID, ControlConnectionTypeID, ControlConnectionLevelID, MergeField, DisplayFormat)
+    SELECT @ReportID, (SELECT ID FROM MD_GlobalControl WHERE CODE='Worksite_Department'),1, 1,2,'Worksite_Department','#LNAME#'
+END ELSE BEGIN
+    UPDATE MD_DocumentReportShareControl SET RefControlID=(SELECT ID FROM MD_GlobalControl WHERE CODE='Worksite_Department'),RefControlTypeID= 1,ControlConnectionTypeID=1,ControlConnectionLevelID=2,MergeField='Worksite_Department',DisplayFormat='#LNAME#' 
+    WHERE DocumentReportID=@ReportID and MergeField='Worksite_Department' 
+END 
+
+IF NOT EXISTS(SELECT 1 from MD_DocumentReportShareControl where DocumentReportID=@ReportID and MergeField='Worksite_Djelatnost') BEGIN 
+    INSERT MD_DocumentReportShareControl(DocumentReportID, RefControlID, RefControlTypeID, ControlConnectionTypeID, ControlConnectionLevelID, MergeField, DisplayFormat)
+    SELECT @ReportID, (SELECT ID FROM MD_GlobalControl WHERE CODE='Worksite_Djelatnost'),1, 1,2,'Worksite_Djelatnost','#LNAME#'
+END ELSE BEGIN
+    UPDATE MD_DocumentReportShareControl SET RefControlID=(SELECT ID FROM MD_GlobalControl WHERE CODE='Worksite_Djelatnost'),RefControlTypeID= 1,ControlConnectionTypeID=1,ControlConnectionLevelID=2,MergeField='Worksite_Djelatnost',DisplayFormat='#LNAME#' 
+    WHERE DocumentReportID=@ReportID and MergeField='Worksite_Djelatnost' 
+END 
+
+IF NOT EXISTS(SELECT 1 from MD_DocumentReportShareControl where DocumentReportID=@ReportID and MergeField='Worksite_LocationAddress') BEGIN 
+    INSERT MD_DocumentReportShareControl(DocumentReportID, RefControlID, RefControlTypeID, ControlConnectionTypeID, ControlConnectionLevelID, MergeField, DisplayFormat)
+    SELECT @ReportID, (SELECT ID FROM MD_GlobalControl WHERE CODE='Worksite_LocationAddress'),1, 1,2,'Worksite_LocationAddress',''
+END ELSE BEGIN
+    UPDATE MD_DocumentReportShareControl SET RefControlID=(SELECT ID FROM MD_GlobalControl WHERE CODE='Worksite_LocationAddress'),RefControlTypeID= 1,ControlConnectionTypeID=1,ControlConnectionLevelID=2,MergeField='Worksite_LocationAddress',DisplayFormat='' 
+    WHERE DocumentReportID=@ReportID and MergeField='Worksite_LocationAddress' 
+END 
+
+IF NOT EXISTS(SELECT 1 from MD_DocumentReportShareControl where DocumentReportID=@ReportID and MergeField='Worksite_LocationPlace') BEGIN 
+    INSERT MD_DocumentReportShareControl(DocumentReportID, RefControlID, RefControlTypeID, ControlConnectionTypeID, ControlConnectionLevelID, MergeField, DisplayFormat)
+    SELECT @ReportID, (SELECT ID FROM MD_GlobalControl WHERE CODE='Worksite_LocationPlace'),1, 1,2,'Worksite_LocationPlace','#NAME#'
+END ELSE BEGIN
+    UPDATE MD_DocumentReportShareControl SET RefControlID=(SELECT ID FROM MD_GlobalControl WHERE CODE='Worksite_LocationPlace'),RefControlTypeID= 1,ControlConnectionTypeID=1,ControlConnectionLevelID=2,MergeField='Worksite_LocationPlace',DisplayFormat='#NAME#' 
+    WHERE DocumentReportID=@ReportID and MergeField='Worksite_LocationPlace' 
+END 
+
+IF NOT EXISTS(SELECT 1 from MD_DocumentReportShareControl where DocumentReportID=@ReportID and MergeField='Worksite_MainDoctor') BEGIN 
+    INSERT MD_DocumentReportShareControl(DocumentReportID, RefControlID, RefControlTypeID, ControlConnectionTypeID, ControlConnectionLevelID, MergeField, DisplayFormat)
+    SELECT @ReportID, (SELECT ID FROM MD_GlobalControl WHERE CODE='Worksite_MainDoctor'),1, 1,2,'Worksite_MainDoctor','#PREFIX# #NAME# #SURNAME# #SUFIX#'
+END ELSE BEGIN
+    UPDATE MD_DocumentReportShareControl SET RefControlID=(SELECT ID FROM MD_GlobalControl WHERE CODE='Worksite_MainDoctor'),RefControlTypeID= 1,ControlConnectionTypeID=1,ControlConnectionLevelID=2,MergeField='Worksite_MainDoctor',DisplayFormat='#PREFIX# #NAME# #SURNAME# #SUFIX#' 
+    WHERE DocumentReportID=@ReportID and MergeField='Worksite_MainDoctor' 
+END 
+
+IF NOT EXISTS(SELECT 1 from MD_DocumentReportShareControl where DocumentReportID=@ReportID and MergeField='Document_DateTimeNow') BEGIN 
+    INSERT MD_DocumentReportShareControl(DocumentReportID, RefControlID, RefControlTypeID, ControlConnectionTypeID, ControlConnectionLevelID, MergeField, DisplayFormat)
+    SELECT @ReportID, (SELECT ID FROM MD_GlobalControl WHERE CODE='Document_DateTimeNow'),1, 2,4,'Document_DateTimeNow','dd.MM.YYYY HH:MM'
+END ELSE BEGIN
+    UPDATE MD_DocumentReportShareControl SET RefControlID=(SELECT ID FROM MD_GlobalControl WHERE CODE='Document_DateTimeNow'),RefControlTypeID= 1,ControlConnectionTypeID=2,ControlConnectionLevelID=4,MergeField='Document_DateTimeNow',DisplayFormat='dd.MM.YYYY HH:MM' 
+    WHERE DocumentReportID=@ReportID and MergeField='Document_DateTimeNow' 
+END 
+
+IF NOT EXISTS(SELECT 1 from MD_DocumentReportShareControl where DocumentReportID=@ReportID and MergeField='VezaneDijagnoze') BEGIN 
+    INSERT MD_DocumentReportShareControl(DocumentReportID, RefControlID, RefControlTypeID, ControlConnectionTypeID, ControlConnectionLevelID, MergeField, DisplayFormat)
+    SELECT @ReportID, (SELECT ID FROM MD_GlobalControl WHERE CODE='VezaneDijagnoze'),1, 1,2,'VezaneDijagnoze',''
+END ELSE BEGIN
+    UPDATE MD_DocumentReportShareControl SET RefControlID=(SELECT ID FROM MD_GlobalControl WHERE CODE='VezaneDijagnoze'),RefControlTypeID= 1,ControlConnectionTypeID=1,ControlConnectionLevelID=2,MergeField='VezaneDijagnoze',DisplayFormat='' 
+    WHERE DocumentReportID=@ReportID and MergeField='VezaneDijagnoze' 
+END 
+
+GO
